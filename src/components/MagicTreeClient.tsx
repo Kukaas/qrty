@@ -104,10 +104,12 @@ export default function MagicTreeClient({
       className="relative w-full h-screen overflow-hidden transition-colors duration-500"
       style={{ backgroundColor: currentSeason.palette.background }}
     >
-      {/* Top Header */}
+      {/* Top Header with Breadcrumbs */}
       <Header
         onOpenInfo={() => setIsInfoOpen(true)}
         scannableText={debouncedUrl}
+        activePresetName={currentSeason.name}
+        activePresetIcon={currentSeason.icon}
       />
 
       {/* 3D WebGL Canvas Stage */}

@@ -60,18 +60,53 @@ export default async function CreatePage({ searchParams }: PageProps) {
     }
   }
 
-  let initialSeason: Season = 'ronin';
-  if (
-    params.season &&
-    ['ronin', 'cyber', 'ember', 'stealth', 'spring', 'summer', 'autumn', 'winter'].includes(params.season)
-  ) {
+  let initialSeason: Season = 'cyber';
+  const validSeasons = [
+    'cyber',
+    'ronin',
+    'ember',
+    'stealth',
+    'tank',
+    'tron',
+    'ufo',
+    'chopper',
+    'blade',
+    'spring',
+    'summer',
+    'autumn',
+    'winter',
+  ];
+  if (params.season && validSeasons.includes(params.season)) {
     initialSeason = params.season as Season;
   }
 
   const initialQRData = generateQRMatrix(initialUrl);
 
+  const breadcrumbsJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://qrty.app',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Studio',
+        item: 'https://qrty.app/create',
+      },
+    ],
+  };
+
   return (
     <main className="relative w-full h-full overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
       <MagicTreeClient
         initialUrl={initialUrl}
         initialSeason={initialSeason}
