@@ -18,7 +18,7 @@ export default function Header({ onOpenInfo }: HeaderProps) {
         <Link
           href="/"
           onClick={() => sound.playWoodClick()}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 backdrop-blur-md border border-zinc-800 text-zinc-300 hover:text-white transition-all text-xs font-mono shadow-md cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/90 hover:bg-white backdrop-blur-md border border-zinc-200 text-zinc-700 hover:text-zinc-950 transition-all text-xs font-mono shadow-xs cursor-pointer"
           title="Back to Landing Page"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
@@ -28,20 +28,20 @@ export default function Header({ onOpenInfo }: HeaderProps) {
         <Link
           href="/"
           onClick={() => sound.playWoodClick()}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 backdrop-blur-md border border-zinc-800 transition-all shadow-md cursor-pointer"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/90 hover:bg-white backdrop-blur-md border border-zinc-200 transition-all shadow-xs cursor-pointer"
         >
-          <span className="font-bold text-base tracking-tight text-white font-sans select-none">
+          <span className="font-bold text-lg tracking-tight text-zinc-900 font-sans select-none">
             qrty
           </span>
-          <span className="text-[10px] font-mono font-bold tracking-wide uppercase text-emerald-400 bg-zinc-950 px-1.5 py-0.5 rounded border border-zinc-800">
+          <span className="text-[10px] font-mono font-bold tracking-wide uppercase text-zinc-700 bg-zinc-100 px-1.5 py-0.5 rounded border border-zinc-200">
             STUDIO
           </span>
         </Link>
       </div>
 
       {/* Center Error Correction Status */}
-      <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 shadow-md pointer-events-auto text-zinc-300 font-mono text-xs">
-        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+      <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-zinc-200 shadow-xs pointer-events-auto text-zinc-700 font-mono text-xs">
+        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
         <span>Level H (30% Redundancy)</span>
       </div>
 
@@ -52,7 +52,7 @@ export default function Header({ onOpenInfo }: HeaderProps) {
             sound.playWoodClick();
             onOpenInfo();
           }}
-          className="w-9 h-9 rounded-xl bg-zinc-900/90 backdrop-blur-md border border-zinc-800 shadow-md flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="w-9 h-9 rounded-xl bg-white/90 backdrop-blur-md border border-zinc-200 shadow-xs flex items-center justify-center text-zinc-600 hover:text-zinc-950 hover:bg-white transition-all hover:scale-105 active:scale-95 cursor-pointer"
           title="About qrty Studio"
           aria-label="About qrty"
         >

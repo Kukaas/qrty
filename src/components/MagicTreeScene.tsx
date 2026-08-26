@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { QRMatrixData, SeasonTheme, ViewMode } from '@/types';
 import { sound } from '@/lib/audio';
+import { buildFigure, FigureAnimData } from '@/lib/figures';
 
 interface MagicTreeSceneProps {
   qrData: QRMatrixData;
@@ -39,6 +40,7 @@ export default function MagicTreeScene({
   const tilesMeshRef = useRef<THREE.InstancedMesh | null>(null);
   const sunLightRef = useRef<THREE.DirectionalLight | null>(null);
   const ambientLightRef = useRef<THREE.AmbientLight | null>(null);
+  const figureAnimRef = useRef<FigureAnimData | null>(null);
 
   // Particle data
   const particleDataRef = useRef<{
@@ -318,18 +320,55 @@ export default function MagicTreeScene({
         treeGroupRef.current.visible = s > 0.02 && viewMode === '3d';
       }
 
-      // Gentle swaying of foliage and branches
-      if (foliageGroupRef.current && treeScaleRef.current > 0.1) {
-        const sway = Math.sin(elapsedTime * 1.5) * 0.025;
-        foliageGroupRef.current.rotation.y = Math.sin(elapsedTime * 0.8) * 0.02;
-        foliageGroupRef.current.position.x = sway;
+      // Animate active figure components
+      const fig = figureAnimRef.current;
+      if (treeGroupRef.current && treeScaleRef.current > 0.1 && fig) {
+        if (fig.type === 'cyber') {
+          fig.rings.forEach((r, idx) => {
+            r.rotation.z += 0.015 * (idx % 2 === 0 ? 1 : -1);
+            r.rotation.y += 0.01;
+          });
+          fig.cubes.forEach((c, idx) => {
+            c.position.y += Math.sin(elapsedTime * 2 + idx) * 0.003;
+            c.rotation.x += 0.02;
+            c.rotation.y += 0.02;
+          });
+          if (fig.beacon) {
+            fig.beacon.rotation.y += 0.03;
+            fig.beacon.position.y = 5.8 + Math.sin(elapsedTime * 3) * 0.08;
+          }
+        } else if (fig.type === 'ember') {
+          fig.shards.forEach((s, idx) => {
+            s.position.y += Math.sin(elapsedTime * 2 + idx) * 0.004;
+            s.rotation.y += 0.015;
+            s.rotation.x += 0.01;
+          });
+          if (fig.beacon) {
+            fig.beacon.rotation.y += 0.02;
+          }
+        } else if (fig.type === 'stealth') {
+          if (fig.gyro) {
+            fig.gyro.rotation.x += 0.012;
+            fig.gyro.rotation.z += 0.018;
+          }
+          if (fig.beacon) {
+            fig.beacon.rotation.y += 0.008;
+          }
+        } else {
+          // Ronin Pine gentle wind sway
+          if (fig.foliageGroup) {
+            fig.foliageGroup.rotation.y = Math.sin(elapsedTime * 0.8) * 0.02;
+            fig.foliageGroup.position.x = Math.sin(elapsedTime * 1.5) * 0.025;
+          }
+        }
       }
 
-      // Update falling petals / particles in 3D mode
+      // Update falling or rising particles in 3D mode
       if (particlesMeshRef.current && viewMode === '3d' && particleDataRef.current.pos.length > 0) {
         const dummy = new THREE.Object3D();
         const pData = particleDataRef.current;
         const count = pData.pos.length;
+        const isUpward = fig?.type === 'cyber' || fig?.type === 'ember';
 
         for (let i = 0; i < count; i++) {
           const pos = pData.pos[i];
@@ -337,17 +376,27 @@ export default function MagicTreeScene({
           const rSpeed = pData.rotSpeed[i];
           const vel = pData.vel[i];
 
-          pos.y -= vel.y;
-          pos.x += Math.sin(elapsedTime * 1.2 + i) * 0.015 + vel.x;
-          pos.z += Math.cos(elapsedTime * 1.2 + i) * 0.015 + vel.z;
+          if (isUpward) {
+            // Cyber pulses / volcano embers rise upward
+            pos.y += vel.y * 1.3;
+            pos.x += Math.sin(elapsedTime * 1.5 + i) * 0.015 + vel.x;
+            pos.z += Math.cos(elapsedTime * 1.5 + i) * 0.015 + vel.z;
+            if (pos.y > 8.0 || Math.abs(pos.x) > 8 || Math.abs(pos.z) > 8) {
+              pos.set((Math.random() - 0.5) * 5, 0.3 + Math.random() * 0.4, (Math.random() - 0.5) * 5);
+            }
+          } else {
+            // Ronin pine needles / titanium flakes drift downward
+            pos.y -= vel.y;
+            pos.x += Math.sin(elapsedTime * 1.2 + i) * 0.015 + vel.x;
+            pos.z += Math.cos(elapsedTime * 1.2 + i) * 0.015 + vel.z;
+            if (pos.y < 0.1 || Math.abs(pos.x) > 10 || Math.abs(pos.z) > 10) {
+              pos.set((Math.random() - 0.5) * 6, 5.5 + Math.random() * 3, (Math.random() - 0.5) * 6);
+            }
+          }
 
           rot.x += rSpeed.x;
           rot.y += rSpeed.y;
           rot.z += rSpeed.z;
-
-          if (pos.y < 0.1 || Math.abs(pos.x) > 10 || Math.abs(pos.z) > 10) {
-            pos.set((Math.random() - 0.5) * 6, 5.5 + Math.random() * 3, (Math.random() - 0.5) * 6);
-          }
 
           dummy.position.copy(pos);
           dummy.rotation.copy(rot);
@@ -495,104 +544,14 @@ export default function MagicTreeScene({
     }
     dioramaGroup.add(grassGroup);
 
-    // 4. Procedural 3D Magic Tree
+    // 4. Distinct 3D Center Figure based on Preset (Ronin Bonsai, Cyber Monolith, Obsidian Ember, Stealth Titanium)
     const treeGroup = new THREE.Group();
     treeGroup.position.set(0, 0, 0);
     treeGroupRef.current = treeGroup;
 
-    const trunkMat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(season.palette.trunk),
-      roughness: 0.85,
-      metalness: 0.05,
-    });
-
-    const trunkCurve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(0.2, 1.2, 0.1),
-      new THREE.Vector3(-0.3, 2.4, -0.2),
-      new THREE.Vector3(0.1, 3.8, 0.2),
-      new THREE.Vector3(0.0, 5.0, 0.0),
-    ]);
-    const trunkGeo = new THREE.TubeGeometry(trunkCurve, 24, 0.38, 8, false);
-    const trunkMesh = new THREE.Mesh(trunkGeo, trunkMat);
-    trunkMesh.castShadow = true;
-    trunkMesh.receiveShadow = true;
-    treeGroup.add(trunkMesh);
-
-    const branches = [
-      { start: new THREE.Vector3(-0.2, 2.6, -0.1), end: new THREE.Vector3(-1.8, 3.8, -1.2), radius: 0.18 },
-      { start: new THREE.Vector3(0.1, 3.1, 0.2), end: new THREE.Vector3(1.9, 4.2, 1.1), radius: 0.18 },
-      { start: new THREE.Vector3(-0.1, 3.7, 0.1), end: new THREE.Vector3(-1.4, 4.8, 1.5), radius: 0.15 },
-      { start: new THREE.Vector3(0.1, 4.0, -0.1), end: new THREE.Vector3(1.5, 5.0, -1.4), radius: 0.15 },
-      { start: new THREE.Vector3(0.0, 4.6, 0.0), end: new THREE.Vector3(0.2, 6.2, 0.3), radius: 0.14 },
-    ];
-
-    branches.forEach((b) => {
-      const mid = new THREE.Vector3()
-        .addVectors(b.start, b.end)
-        .multiplyScalar(0.5)
-        .add(new THREE.Vector3((Math.random() - 0.5) * 0.4, 0.4, (Math.random() - 0.5) * 0.4));
-      const bCurve = new THREE.CatmullRomCurve3([b.start, mid, b.end]);
-      const bGeo = new THREE.TubeGeometry(bCurve, 12, b.radius, 6, false);
-      const bMesh = new THREE.Mesh(bGeo, trunkMat);
-      bMesh.castShadow = true;
-      treeGroup.add(bMesh);
-    });
-
-    const foliageGroup = new THREE.Group();
-    foliageGroupRef.current = foliageGroup;
-    treeGroup.add(foliageGroup);
-
-    const foliageColors = customFoliageColors || season.palette.foliage;
-    const foliageMatArray = foliageColors.map(
-      (hex) =>
-        new THREE.MeshStandardMaterial({
-          color: new THREE.Color(hex),
-          roughness: 0.75,
-          metalness: 0.05,
-          flatShading: true,
-        })
-    );
-
-    const foliageClusters = [
-      { pos: new THREE.Vector3(0, 5.8, 0), radius: 1.8 },
-      { pos: new THREE.Vector3(0.4, 6.4, 0.3), radius: 1.5 },
-      { pos: new THREE.Vector3(-0.5, 6.2, -0.4), radius: 1.4 },
-      { pos: new THREE.Vector3(-1.9, 4.2, -1.3), radius: 1.6 },
-      { pos: new THREE.Vector3(-2.4, 4.6, -1.0), radius: 1.2 },
-      { pos: new THREE.Vector3(-1.5, 3.8, -1.8), radius: 1.1 },
-      { pos: new THREE.Vector3(2.1, 4.5, 1.2), radius: 1.6 },
-      { pos: new THREE.Vector3(2.5, 4.9, 0.8), radius: 1.3 },
-      { pos: new THREE.Vector3(1.7, 4.2, 1.8), radius: 1.2 },
-      { pos: new THREE.Vector3(-1.6, 5.1, 1.7), radius: 1.4 },
-      { pos: new THREE.Vector3(-1.2, 5.5, 1.4), radius: 1.2 },
-      { pos: new THREE.Vector3(1.7, 5.3, -1.5), radius: 1.5 },
-      { pos: new THREE.Vector3(1.2, 5.7, -1.8), radius: 1.2 },
-      { pos: new THREE.Vector3(0.8, 4.8, 0.2), radius: 1.3 },
-      { pos: new THREE.Vector3(-0.7, 4.6, 0.3), radius: 1.3 },
-      { pos: new THREE.Vector3(0.2, 4.4, -0.8), radius: 1.2 },
-      { pos: new THREE.Vector3(-0.3, 4.3, 0.9), radius: 1.2 },
-    ];
-
-    foliageClusters.forEach((cluster, i) => {
-      const geo = new THREE.IcosahedronGeometry(cluster.radius, 1);
-      const posAttr = geo.attributes.position;
-      for (let j = 0; j < posAttr.count; j++) {
-        const vx = posAttr.getX(j);
-        const vy = posAttr.getY(j);
-        const vz = posAttr.getZ(j);
-        const noise = 1.0 + (Math.random() - 0.5) * 0.22;
-        posAttr.setXYZ(j, vx * noise, vy * noise, vz * noise);
-      }
-      geo.computeVertexNormals();
-
-      const mat = foliageMatArray[i % foliageMatArray.length];
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.copy(cluster.pos);
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      foliageGroup.add(mesh);
-    });
+    const animData = buildFigure(treeGroup, season, customColorHex, customFoliageColors);
+    figureAnimRef.current = animData;
+    foliageGroupRef.current = animData.foliageGroup || null;
 
     dioramaGroup.add(treeGroup);
 

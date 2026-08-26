@@ -123,7 +123,7 @@ export default function MagicTreeClient({
             onRegisterCapture={handleRegisterCapture}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-[#121415]" />
+          <div className="w-full h-full flex items-center justify-center bg-[#F3F4F6]" />
         )}
       </div>
 
