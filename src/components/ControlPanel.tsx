@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Season, ColorOption, ViewMode } from '@/types';
 import { SEASONS, COLOR_OPTIONS } from '@/lib/constants';
-import { Share2, Volume2, VolumeX, Check, Copy, QrCode, Trees } from 'lucide-react';
+import { Share2, Volume2, VolumeX, Check, Copy, QrCode, Trees, ChevronLeft, ChevronRight } from 'lucide-react';
 import { sound } from '@/lib/audio';
 import { formatRedirectUrl } from '@/lib/qr';
 
@@ -53,12 +53,77 @@ export default function ControlPanel({
   onToggleViewMode,
 }: ControlPanelProps) {
   const [copied, setCopied] = useState(false);
+  const presetsRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  // Mouse drag-to-scroll states
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+
+  const checkScroll = () => {
+    if (!presetsRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = presetsRef.current;
+    setCanScrollLeft(scrollLeft > 4);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 4);
+  };
+
+  useEffect(() => {
+    checkScroll();
+    const el = presetsRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll);
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(formatRedirectUrl(url));
     sound.playWoodClick();
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
+  };
+
+  const scrollPresets = (direction: 'left' | 'right') => {
+    if (!presetsRef.current) return;
+    const amount = direction === 'left' ? -160 : 160;
+    presetsRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    sound.playWoodClick();
+    setTimeout(checkScroll, 200);
+  };
+
+  // Convert mouse wheel to horizontal scroll
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (!presetsRef.current) return;
+    if (e.deltaY !== 0) {
+      presetsRef.current.scrollLeft += e.deltaY;
+      checkScroll();
+    }
+  };
+
+  // Mouse drag-to-scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!presetsRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - presetsRef.current.offsetLeft);
+    setScrollLeftState(presetsRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !presetsRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - presetsRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    presetsRef.current.scrollLeft = scrollLeftState - walk;
+    checkScroll();
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
   };
 
   const formattedUrl = formatRedirectUrl(url);
@@ -149,9 +214,34 @@ export default function ControlPanel({
           </button>
         </div>
 
-        {/* Row 3: Responsive Horizontally-Scrollable 8 Presets Carousel + Audio Mute */}
-        <div className="flex items-center gap-1.5 pt-0.5">
-          <div className="flex-1 flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-0.5 touch-pan-x">
+        {/* Row 3: Presets Carousel with Arrow Controls & Wheel/Drag Scroll */}
+        <div className="flex items-center gap-1 sm:gap-1.5 pt-0.5">
+          {/* Scroll Left Button */}
+          <button
+            type="button"
+            onClick={() => scrollPresets('left')}
+            disabled={!canScrollLeft}
+            className={`p-1.5 rounded-lg border transition-all shrink-0 ${
+              canScrollLeft
+                ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 cursor-pointer shadow-2xs'
+                : 'bg-zinc-50 border-zinc-150 text-zinc-300 cursor-not-allowed opacity-40'
+            }`}
+            title="Scroll Presets Left"
+            aria-label="Previous Presets"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Horizontally-Scrollable 8 Presets Strip */}
+          <div
+            ref={presetsRef}
+            onWheel={handleWheel}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUpOrLeave}
+            onMouseLeave={handleMouseUpOrLeave}
+            className="flex-1 flex items-center gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-0.5 touch-pan-x cursor-grab active:cursor-grabbing select-none"
+          >
             {PRESET_LIST.map((seasonKey, idx) => {
               const s = SEASONS[seasonKey];
               const isSelected = selectedSeason === seasonKey;
@@ -164,10 +254,10 @@ export default function ControlPanel({
                     sound.playSeasonChime(idx);
                     onSelectSeason(seasonKey);
                   }}
-                  className={`flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl text-xs font-mono font-medium transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap ${
+                  className={`flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl text-xs font-mono font-medium transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap ${
                     isSelected
-                      ? 'bg-zinc-900 text-white font-bold shadow-xs scale-102'
-                      : 'bg-zinc-100 hover:bg-zinc-200/80 text-zinc-700 border border-zinc-200/80 hover:text-zinc-900'
+                      ? 'bg-zinc-900 text-white font-bold shadow-xs scale-102 ring-2 ring-zinc-900/20'
+                      : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-700 border border-zinc-200/80 hover:text-zinc-900'
                   }`}
                 >
                   <span className="text-sm sm:text-base">{s.icon}</span>
@@ -177,6 +267,22 @@ export default function ControlPanel({
             })}
           </div>
 
+          {/* Scroll Right Button */}
+          <button
+            type="button"
+            onClick={() => scrollPresets('right')}
+            disabled={!canScrollRight}
+            className={`p-1.5 rounded-lg border transition-all shrink-0 ${
+              canScrollRight
+                ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 cursor-pointer shadow-2xs'
+                : 'bg-zinc-50 border-zinc-150 text-zinc-300 cursor-not-allowed opacity-40'
+            }`}
+            title="Scroll Presets Right"
+            aria-label="Next Presets"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+
           {/* Audio Mute/Unmute Toggle */}
           <button
             type="button"
@@ -185,7 +291,7 @@ export default function ControlPanel({
               onToggleMute();
             }}
             className="p-1.5 sm:p-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-zinc-900 border border-zinc-200 transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
-            title={isMuted ? 'Unmute Zen Sounds' : 'Mute Zen Sounds'}
+            title={isMuted ? 'Unmute Sounds' : 'Mute Sounds'}
             aria-label="Toggle Sound"
           >
             {isMuted ? <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-400" /> : <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-900" />}
