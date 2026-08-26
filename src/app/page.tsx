@@ -41,8 +41,51 @@ export default function LandingPage() {
     },
   ];
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is qrty (qwerty qr) and how does this 3D QR generator work?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'qrty (also known as qwerty qr or qr generator) is a next-generation 3D QR code maker hosted on qrty.kukaass.app. It renders your URL payload as an interactive 3D WebGL diorama with customizable centerpieces and a dedicated instant Scan Mode.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can standard smartphone cameras scan these 3D QR codes?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! Every QR code is generated with Mil-Spec Level H (30%) Reed-Solomon error correction redundancy and a flat zero-perspective scan mode, allowing any iPhone or Android camera to decode the URL in milliseconds.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is qrty free to use for personal and commercial projects?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'qrty is 100% free with zero accounts, no sign-ups, and no paywalls. You can generate unlimited custom QR codes and export 4K high-resolution PNGs or wallpapers.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I export and download my 3D QR code?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Click Launch Studio, enter your website link, customize your preferred centerpiece and color theme, and tap the Share / Export button to download high-resolution images ready for printing, merchandise, business cards, or online sharing.',
+        },
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen w-full bg-[#f8f9fa] text-zinc-900 selection:bg-zinc-900 selection:text-white font-sans antialiased overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Top Navbar */}
       <nav className="w-full border-b border-zinc-200/80 bg-white/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -183,6 +226,61 @@ export default function LandingPage() {
               <h4 className="text-base font-bold text-zinc-900">Stealth Jet</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
                 Supersonic stealth fighter jet with faceted delta wings, canted V-tails, radar-deflecting chines, and twin afterburner flames.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SEO FAQ Section with Schema.org FAQPage */}
+      <section id="faq" className="py-20 px-6 border-t border-zinc-200 bg-[#f8f9fa]">
+        <div className="max-w-4xl mx-auto flex flex-col gap-10">
+          <div className="flex flex-col items-center text-center gap-3">
+            <span className="text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase">
+              SEARCH & COMPATIBILITY FAQ
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900">
+              Frequently Asked Questions About qrty
+            </h2>
+            <p className="text-sm text-zinc-500 max-w-lg">
+              Everything you need to know about generating scannable 3D QR code dioramas.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200 shadow-xs flex flex-col gap-2">
+              <h3 className="text-base font-bold text-zinc-900">
+                What is qrty (qwerty qr) and how does this 3D QR generator work?
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                qrty (also searched as qwerty qr or qr generator) is a next-generation 3D QR code maker hosted on <strong className="text-zinc-900">qrty.kukaass.app</strong>. Unlike flat, boring black-and-white barcodes, qrty renders your URL payload as an interactive 3D WebGL diorama with customizable centerpieces (Hypercar, Mecha Ronin, Starship, Cyber Tank, etc.) and a dedicated instant Scan Mode.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200 shadow-xs flex flex-col gap-2">
+              <h3 className="text-base font-bold text-zinc-900">
+                Can standard smartphone cameras scan these 3D QR codes?
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                Yes! Every QR code is generated with Mil-Spec Level H (30%) Reed-Solomon error correction redundancy. In Scan Mode, the camera automatically locks into an orthographic zero-perspective plane with solid finder patterns, allowing iOS Camera, Android Google Lens, and barcode scanners to decode your URL in milliseconds.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200 shadow-xs flex flex-col gap-2">
+              <h3 className="text-base font-bold text-zinc-900">
+                Is qrty free to use for personal and commercial projects?
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                qrty is 100% free with zero accounts, no sign-ups, and no paywalls. You can generate unlimited custom QR codes and export 4K high-resolution PNGs or wallpapers directly to your device.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200 shadow-xs flex flex-col gap-2">
+              <h3 className="text-base font-bold text-zinc-900">
+                How do I export and download my 3D QR code?
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                Click "Launch Studio", enter your website link, customize your preferred centerpiece and color theme, and tap the Share / Export button to download high-resolution images ready for printing, merchandise, business cards, or online sharing.
               </p>
             </div>
           </div>

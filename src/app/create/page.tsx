@@ -90,13 +90,13 @@ export default async function CreatePage({ searchParams }: PageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://qrty.app',
+        item: 'https://qrty.kukaass.app',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Studio',
-        item: 'https://qrty.app/create',
+        item: 'https://qrty.kukaass.app/create',
       },
     ],
   };
