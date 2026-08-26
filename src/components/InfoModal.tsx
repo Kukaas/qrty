@@ -23,7 +23,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
             </div>
             <div>
               <h2 className="text-sm font-bold text-zinc-900 leading-none font-mono">qrty // Architecture</h2>
-              <span className="text-xs text-zinc-500 font-mono">Tactical 3D QR System</span>
+              <span className="text-xs text-zinc-500 font-mono">Tactical 3D QR System • v1.0.0</span>
             </div>
           </div>
           <button

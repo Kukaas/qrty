@@ -94,7 +94,7 @@ export default function LandingPage() {
               qrty
             </span>
             <span className="text-[10px] font-mono font-bold tracking-wider text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200 uppercase">
-              v2.4
+              v1.0.0
             </span>
           </Link>
 
@@ -313,7 +313,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="w-full border-t border-zinc-200 py-8 px-6 text-center text-xs font-mono text-zinc-500 bg-[#f8f9fa]">
-        <p>qrty // TACTICAL 3D QR ARCHITECTURE • BUILT WITH NEXT.JS SSR & THREE.JS WEBGL</p>
+        <p>qrty v1.0.0 // TACTICAL 3D QR ARCHITECTURE • BUILT WITH NEXT.JS SSR & THREE.JS WEBGL</p>
       </footer>
     </div>
   );
