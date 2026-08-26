@@ -1,27 +1,11 @@
 import { SeasonTheme, ColorOption, Season } from '@/types';
 
 export const SEASONS: Record<Season, SeasonTheme> = {
-  ronin: {
-    id: 'ronin',
-    name: 'Ronin Pine',
-    icon: '🌲',
-    description: 'Weathered Japanese black pine (Kuromatsu) on limestone diorama with deep evergreen foliage',
-    palette: {
-      foliage: ['#166534', '#15803D', '#22C55E', '#14532D', '#2E7D32'],
-      trunk: '#3E2723',
-      hedges: ['#14532D', '#166534', '#15803D'],
-      accent: '#15803D',
-      groundLight: '#FFFFFF',
-      groundDark: '#14532D',
-      petals: ['#15803D', '#22C55E', '#166534', '#4ADE80'],
-      background: '#F3F4F6',
-    },
-  },
   cyber: {
     id: 'cyber',
-    name: 'Cyber Grid',
-    icon: '⚡',
-    description: 'Electric cobalt matrix on white titanium slab with circuit tree and data pulse particles',
+    name: 'Hypercar',
+    icon: '🏎️',
+    description: 'Low-poly concept supercar with glowing neon light bars, aerodynamic spoiler, and alloy wheels',
     palette: {
       foliage: ['#0284C7', '#0EA5E9', '#38BDF8', '#0369A1', '#075985'],
       trunk: '#1E293B',
@@ -33,16 +17,32 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       background: '#F0F4F8',
     },
   },
+  ronin: {
+    id: 'ronin',
+    name: 'Mecha Ronin',
+    icon: '🤖',
+    description: 'Tactical cybernetic samurai warrior with angular armor plates and twin glowing katanas',
+    palette: {
+      foliage: ['#166534', '#15803D', '#22C55E', '#14532D', '#2E7D32'],
+      trunk: '#3E2723',
+      hedges: ['#14532D', '#166534', '#15803D'],
+      accent: '#15803D',
+      groundLight: '#FFFFFF',
+      groundDark: '#15803D',
+      petals: ['#15803D', '#22C55E', '#166534', '#4ADE80'],
+      background: '#F3F4F6',
+    },
+  },
   ember: {
     id: 'ember',
-    name: 'Obsidian Ember',
-    icon: '🌋',
-    description: 'Forged volcanic steel pedestal with crimson magma modules and furnace sparks',
+    name: 'Starship',
+    icon: '🚀',
+    description: 'Orbital exploration rocket with aerodynamic grid fins and glowing fiery engine thruster',
     palette: {
       foliage: ['#DC2626', '#EA580C', '#F97316', '#B91C1C', '#991B1B'],
       trunk: '#27272A',
       hedges: ['#B91C1C', '#C2410C', '#991B1B'],
-      accent: '#EA580C',
+      accent: '#DC2626',
       groundLight: '#FFFFFF',
       groundDark: '#DC2626',
       petals: ['#F97316', '#EF4444', '#FBBF24', '#EA580C'],
@@ -51,9 +51,9 @@ export const SEASONS: Record<Season, SeasonTheme> = {
   },
   stealth: {
     id: 'stealth',
-    name: 'Stealth Titanium',
-    icon: '🛡️',
-    description: 'Matte aluminum slab with pure graphite black modules and brushed steel canopy',
+    name: 'Stealth Jet',
+    icon: '✈️',
+    description: 'Supersonic stealth fighter jet with faceted delta wings, canted V-tails, and afterburners',
     palette: {
       foliage: ['#27272A', '#3F3F46', '#52525B', '#71717A', '#18181B'],
       trunk: '#18181B',
@@ -68,25 +68,25 @@ export const SEASONS: Record<Season, SeasonTheme> = {
   // Fallbacks
   spring: {
     id: 'spring',
-    name: 'Ronin Pine',
-    icon: '🌲',
-    description: 'Weathered Japanese black pine',
+    name: 'Mecha Ronin',
+    icon: '🤖',
+    description: 'Tactical cybernetic samurai',
     palette: {
-      foliage: ['#166534', '#15803D', '#22C55E'],
+      foliage: ['#166534', '#15803D'],
       trunk: '#3E2723',
       hedges: ['#14532D', '#166534'],
       accent: '#15803D',
       groundLight: '#FFFFFF',
-      groundDark: '#14532D',
-      petals: ['#15803D', '#22C55E'],
+      groundDark: '#15803D',
+      petals: ['#15803D'],
       background: '#F3F4F6',
     },
   },
   summer: {
     id: 'summer',
-    name: 'Cyber Grid',
-    icon: '⚡',
-    description: 'Electric cobalt matrix',
+    name: 'Hypercar',
+    icon: '🏎️',
+    description: 'Low-poly concept supercar',
     palette: {
       foliage: ['#0284C7', '#0EA5E9'],
       trunk: '#1E293B',
@@ -100,14 +100,14 @@ export const SEASONS: Record<Season, SeasonTheme> = {
   },
   autumn: {
     id: 'autumn',
-    name: 'Obsidian Ember',
-    icon: '🌋',
-    description: 'Forged volcanic steel',
+    name: 'Starship',
+    icon: '🚀',
+    description: 'Orbital exploration rocket',
     palette: {
       foliage: ['#DC2626', '#EA580C'],
       trunk: '#27272A',
       hedges: ['#B91C1C', '#C2410C'],
-      accent: '#EA580C',
+      accent: '#DC2626',
       groundLight: '#FFFFFF',
       groundDark: '#DC2626',
       petals: ['#F97316'],
@@ -116,9 +116,9 @@ export const SEASONS: Record<Season, SeasonTheme> = {
   },
   winter: {
     id: 'winter',
-    name: 'Stealth Titanium',
-    icon: '🛡️',
-    description: 'Matte aluminum slab',
+    name: 'Stealth Jet',
+    icon: '✈️',
+    description: 'Supersonic stealth fighter',
     palette: {
       foliage: ['#27272A', '#3F3F46'],
       trunk: '#18181B',
@@ -134,6 +134,34 @@ export const SEASONS: Record<Season, SeasonTheme> = {
 
 export const COLOR_OPTIONS: ColorOption[] = [
   {
+    id: 'cyan',
+    name: 'Cobalt Cyan',
+    hex: '#0284C7',
+    foliageColors: ['#075985', '#0369A1', '#0284C7', '#0EA5E9', '#38BDF8'],
+    moduleColor: '#0284C7',
+  },
+  {
+    id: 'emerald',
+    name: 'Racing Green',
+    hex: '#15803D',
+    foliageColors: ['#14532D', '#166534', '#15803D', '#22C55E', '#4ADE80'],
+    moduleColor: '#15803D',
+  },
+  {
+    id: 'crimson',
+    name: 'Apex Crimson',
+    hex: '#DC2626',
+    foliageColors: ['#991B1B', '#B91C1C', '#DC2626', '#EF4444', '#F87171'],
+    moduleColor: '#DC2626',
+  },
+  {
+    id: 'amber',
+    name: 'Tach Orange',
+    hex: '#EA580C',
+    foliageColors: ['#9A3412', '#C2410C', '#EA580C', '#F97316', '#FB923C'],
+    moduleColor: '#EA580C',
+  },
+  {
     id: 'stealth',
     name: 'Stealth Graphite',
     hex: '#18181B',
@@ -141,39 +169,11 @@ export const COLOR_OPTIONS: ColorOption[] = [
     moduleColor: '#18181B',
   },
   {
-    id: 'emerald',
-    name: 'Racing Green',
-    hex: '#15803D',
-    foliageColors: ['#14532D', '#166534', '#15803D', '#22C55E', '#4ADE80'],
-    moduleColor: '#14532D',
-  },
-  {
-    id: 'cyan',
-    name: 'Cobalt Cyan',
-    hex: '#0284C7',
-    foliageColors: ['#075985', '#0369A1', '#0284C7', '#0EA5E9', '#38BDF8'],
-    moduleColor: '#0369A1',
-  },
-  {
-    id: 'amber',
-    name: 'Tach Orange',
-    hex: '#EA580C',
-    foliageColors: ['#9A3412', '#C2410C', '#EA580C', '#F97316', '#FB923C'],
-    moduleColor: '#C2410C',
-  },
-  {
-    id: 'crimson',
-    name: 'Apex Crimson',
-    hex: '#DC2626',
-    foliageColors: ['#991B1B', '#B91C1C', '#DC2626', '#EF4444', '#F87171'],
-    moduleColor: '#991B1B',
-  },
-  {
     id: 'violet',
     name: 'Nightshade Violet',
     hex: '#7C3AED',
     foliageColors: ['#5B21B6', '#6D28D9', '#7C3AED', '#8B5CF6', '#A78BFA'],
-    moduleColor: '#6D28D9',
+    moduleColor: '#7C3AED',
   },
 ];
 

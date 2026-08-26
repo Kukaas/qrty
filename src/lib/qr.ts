@@ -153,9 +153,9 @@ export function generateCleanQRPNG(
   if (typeof document === 'undefined') return '';
 
   const {
-    darkColor = '#1F2937',
-    lightColor = '#FAF6EE',
-    finderColor = '#4B7B34',
+    darkColor = '#18181B',
+    lightColor = '#FFFFFF',
+    finderColor = '#18181B',
     scale = 16,
   } = options;
 

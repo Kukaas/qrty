@@ -149,40 +149,40 @@ export default function LandingPage() {
               Precision-Crafted Themes
             </h2>
             <p className="text-sm text-zinc-500 max-w-lg">
-              Four masculine profiles with bespoke 3D tree geometry, material shaders, and particle dynamics.
+              Four iconic masculine 3D centerpieces: Hypercar, Mecha Ronin, Starship, and Stealth Jet.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
-              <div className="text-3xl">🌲</div>
-              <h4 className="text-base font-bold text-zinc-900">Ronin Pine</h4>
+              <div className="text-3xl">🏎️</div>
+              <h4 className="text-base font-bold text-zinc-900">Hypercar</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                Japanese Kuromatsu black pine with deep evergreen needle clouds, weathered stone base, and midnight moss hedge corners.
+                Low-poly concept supercar with glowing neon light bars, aerodynamic spoiler, spinning alloy wheels, and magnetic suspension.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
-              <div className="text-3xl">⚡</div>
-              <h4 className="text-base font-bold text-zinc-900">Cyber Grid</h4>
+              <div className="text-3xl">🤖</div>
+              <h4 className="text-base font-bold text-zinc-900">Mecha Ronin</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                Electric cobalt matrix on titanium white slab with circuit tree branches and digital pulse particles.
+                Tactical cybernetic samurai warrior with angular chest armor, glowing power reactor, visor slit, and dual plasma energy katanas.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
-              <div className="text-3xl">🌋</div>
-              <h4 className="text-base font-bold text-zinc-900">Obsidian Ember</h4>
+              <div className="text-3xl">🚀</div>
+              <h4 className="text-base font-bold text-zinc-900">Starship</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                Forged volcanic steel pedestal with molten crimson magma modules and furnace spark particles.
+                Orbital exploration rocket with faceted heat shield, titanium grid fins, landing struts, and glowing fiery engine exhaust.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
-              <div className="text-3xl">🛡️</div>
-              <h4 className="text-base font-bold text-zinc-900">Stealth Titanium</h4>
+              <div className="text-3xl">✈️</div>
+              <h4 className="text-base font-bold text-zinc-900">Stealth Jet</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                Matte aluminum slab with pure graphite black modules and brushed steel canopy for maximum stealth aesthetics.
+                Supersonic stealth fighter jet with faceted delta wings, canted V-tails, radar-deflecting chines, and twin afterburner flames.
               </p>
             </div>
           </div>

@@ -100,13 +100,9 @@ export default function MagicTreeScene({
       const color = new THREE.Color();
 
       const lightColorHex = isQR ? '#FFFFFF' : season.palette.groundLight;
-      // In QR mode, ensure high contrast for effortless phone scanning
-      const darkColorHex = isQR
-        ? customColorHex || '#18181B'
-        : customColorHex || season.palette.groundDark;
-      const finderDarkHex = isQR
-        ? '#14532D' // Dark forest green with strong contrast against white
-        : season.palette.hedges[0] || '#4B7B34';
+      // In QR mode, display the preset's vibrant signature color on pure white for 100% camera readability
+      const darkColorHex = customColorHex || season.palette.groundDark;
+      const finderDarkHex = customColorHex || season.palette.hedges[0] || season.palette.groundDark;
 
       let tileIndex = 0;
       for (let r = 0; r < size; r++) {
@@ -324,41 +320,34 @@ export default function MagicTreeScene({
       const fig = figureAnimRef.current;
       if (treeGroupRef.current && treeScaleRef.current > 0.1 && fig) {
         if (fig.type === 'cyber') {
-          fig.rings.forEach((r, idx) => {
-            r.rotation.z += 0.015 * (idx % 2 === 0 ? 1 : -1);
-            r.rotation.y += 0.01;
-          });
-          fig.cubes.forEach((c, idx) => {
-            c.position.y += Math.sin(elapsedTime * 2 + idx) * 0.003;
-            c.rotation.x += 0.02;
-            c.rotation.y += 0.02;
-          });
-          if (fig.beacon) {
-            fig.beacon.rotation.y += 0.03;
-            fig.beacon.position.y = 5.8 + Math.sin(elapsedTime * 3) * 0.08;
+          // Hypercar: spin wheels & subtle magnetic suspension bounce
+          if (fig.wheels) {
+            fig.wheels.forEach((w) => {
+              w.rotation.x += 0.05;
+            });
+          }
+          if (fig.body) {
+            fig.body.position.y = 0.45 + Math.sin(elapsedTime * 3) * 0.015;
+          }
+        } else if (fig.type === 'ronin') {
+          // Mecha Ronin: heroic warrior torso breathing
+          if (fig.body) {
+            fig.body.position.y = 1.8 + Math.sin(elapsedTime * 2) * 0.02;
           }
         } else if (fig.type === 'ember') {
-          fig.shards.forEach((s, idx) => {
-            s.position.y += Math.sin(elapsedTime * 2 + idx) * 0.004;
-            s.rotation.y += 0.015;
-            s.rotation.x += 0.01;
-          });
+          // Starship: hovering rocket vibration & thruster flame pulse
+          if (fig.body) {
+            fig.body.position.y = 0.4 + Math.sin(elapsedTime * 2.5) * 0.02;
+          }
           if (fig.beacon) {
-            fig.beacon.rotation.y += 0.02;
+            fig.beacon.scale.y = 1.0 + Math.sin(elapsedTime * 10) * 0.12;
           }
         } else if (fig.type === 'stealth') {
-          if (fig.gyro) {
-            fig.gyro.rotation.x += 0.012;
-            fig.gyro.rotation.z += 0.018;
-          }
-          if (fig.beacon) {
-            fig.beacon.rotation.y += 0.008;
-          }
-        } else {
-          // Ronin Pine gentle wind sway
-          if (fig.foliageGroup) {
-            fig.foliageGroup.rotation.y = Math.sin(elapsedTime * 0.8) * 0.02;
-            fig.foliageGroup.position.x = Math.sin(elapsedTime * 1.5) * 0.025;
+          // Stealth Jet: aerodynamic banking & hovering flight sway
+          if (fig.body) {
+            fig.body.rotation.z = Math.sin(elapsedTime * 1.5) * 0.04;
+            fig.body.rotation.x = Math.cos(elapsedTime * 1.2) * 0.025;
+            fig.body.position.y = 1.6 + Math.sin(elapsedTime * 2) * 0.03;
           }
         }
       }
@@ -549,9 +538,8 @@ export default function MagicTreeScene({
     treeGroup.position.set(0, 0, 0);
     treeGroupRef.current = treeGroup;
 
-    const animData = buildFigure(treeGroup, season, customColorHex, customFoliageColors);
+    const animData = buildFigure(treeGroup, season, customColorHex);
     figureAnimRef.current = animData;
-    foliageGroupRef.current = animData.foliageGroup || null;
 
     dioramaGroup.add(treeGroup);
 
