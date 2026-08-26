@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Cpu, Layers, ShieldCheck, Zap, QrCode } from 'lucide-react';
+import { ArrowRight, Cpu, Layers, ShieldCheck, Zap, QrCode, ExternalLink, MessageSquare, Globe } from 'lucide-react';
 import LandingHeroClient from '@/components/LandingHeroClient';
 
 export const metadata: Metadata = {
@@ -311,9 +311,172 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-zinc-200 py-8 px-6 text-center text-xs font-mono text-zinc-500 bg-[#f8f9fa]">
-        <p>qrty v1.0.0 // TACTICAL 3D QR ARCHITECTURE • BUILT WITH NEXT.JS SSR & THREE.JS WEBGL</p>
+      {/* Comprehensive Architectural Footer with Creator Info & Suggestions Contact */}
+      <footer className="w-full border-t border-zinc-200 bg-white text-zinc-900 pt-16 pb-12 px-6 font-sans">
+        <div className="max-w-7xl mx-auto flex flex-col gap-12">
+          {/* Top Row: Suggestion Banner / Contact Card */}
+          <div className="rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xs">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-zinc-900 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <MessageSquare className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base sm:text-lg font-bold text-zinc-900">
+                    Have suggestions or custom feature ideas?
+                  </h3>
+                  <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                    Open to Feedback
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-zinc-600 max-w-xl">
+                  Want new 3D figures, custom export dimensions, or API integrations? Send your suggestions directly to Chester Luke Maligaso.
+                </p>
+              </div>
+            </div>
+
+            <a
+              href="https://kukaass.app/#contact"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs sm:text-sm font-semibold tracking-tight transition-all hover:scale-105 active:scale-95 shadow-sm shrink-0 font-mono"
+            >
+              <span>Submit Suggestion</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+
+          {/* Middle Row: Links Columns */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4">
+            {/* Col 1: Brand & Creator Info */}
+            <div className="flex flex-col gap-3 md:col-span-2">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-xl tracking-tight text-zinc-900 font-sans">
+                  qrty
+                </span>
+                <span className="text-[10px] font-mono font-bold tracking-wider text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200 uppercase">
+                  v1.0.0
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed max-w-md">
+                Engineered by <strong className="text-zinc-900">Chester Luke Maligaso</strong> (<a href="https://kukaass.app" target="_blank" rel="noopener noreferrer" className="underline hover:text-black font-semibold">kukaass.app</a>). A high-precision 3D QR diorama generator combining hardware WebGL rendering with Mil-Spec error correction.
+              </p>
+              <div className="flex items-center gap-3 pt-2">
+                <a
+                  href="https://kukaass.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-mono transition-colors"
+                  title="Chester Luke's Website"
+                >
+                  <Globe className="w-3.5 h-3.5 text-zinc-700" />
+                  <span>kukaass.app</span>
+                </a>
+                <a
+                  href="https://github.com/kukaass"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-mono transition-colors"
+                  title="GitHub Profile"
+                >
+                  <svg className="w-3.5 h-3.5 fill-current text-zinc-700" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                  </svg>
+                  <span>kukaass</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Col 2: Creator Information */}
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase">
+                Creator
+              </h4>
+              <ul className="flex flex-col gap-2 text-xs font-mono text-zinc-600">
+                <li>
+                  <a
+                    href="https://kukaass.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-zinc-900 transition-colors flex items-center gap-1"
+                  >
+                    <span>Portfolio</span>
+                    <ExternalLink className="w-3 h-3 text-zinc-400" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://kukaass.app/#about"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-zinc-900 transition-colors flex items-center gap-1"
+                  >
+                    <span>About Chester</span>
+                    <ExternalLink className="w-3 h-3 text-zinc-400" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://kukaass.app/#projects"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-zinc-900 transition-colors flex items-center gap-1"
+                  >
+                    <span>Selected Works</span>
+                    <ExternalLink className="w-3 h-3 text-zinc-400" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://kukaass.app/#contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-zinc-900 transition-colors flex items-center gap-1 text-zinc-900 font-bold"
+                  >
+                    <span>Contact & Suggestions</span>
+                    <ExternalLink className="w-3 h-3 text-zinc-600" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 3: Architecture & Specs */}
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-xs font-mono font-bold tracking-widest text-zinc-400 uppercase">
+                Architecture
+              </h4>
+              <ul className="flex flex-col gap-2 text-xs font-mono text-zinc-600">
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+                  <span>Next.js 16.3 (Turbopack)</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-600" />
+                  <span>Three.js WebGL 2.0</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-600" />
+                  <span>Level H Reed-Solomon</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+                  <span>Hosted on Vercel Edge</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Copyright Strip */}
+          <div className="border-t border-zinc-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+            <p>
+              © 2026 <a href="https://kukaass.app" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 font-semibold underline">Chester Luke Maligaso</a>. All rights reserved.
+            </p>
+            <p>
+              qrty.kukaass.app // PRECISION 3D QR ARCHITECTURE
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );

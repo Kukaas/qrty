@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, QrCode, Trees, ShieldCheck, Cpu } from 'lucide-react';
+import { X, QrCode, Trees, ShieldCheck, Cpu, ExternalLink } from 'lucide-react';
 import { sound } from '@/lib/audio';
 
 interface InfoModalProps {
@@ -76,14 +76,23 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-3 border-t border-zinc-200 bg-zinc-50/80 flex justify-end">
+        {/* Footer with Suggestions Contact Link */}
+        <div className="px-6 py-3.5 border-t border-zinc-200 bg-zinc-50/80 flex items-center justify-between gap-3 text-xs font-mono">
+          <a
+            href="https://kukaass.app/#contact"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-600 hover:text-zinc-950 font-semibold underline flex items-center gap-1 text-[11px]"
+          >
+            <span>Suggestions? Contact Chester</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
           <button
             onClick={() => {
               sound.playWoodClick();
               onClose();
             }}
-            className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs font-bold font-mono cursor-pointer transition-colors"
+            className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs font-bold font-mono cursor-pointer transition-colors shrink-0"
           >
             Acknowledge
           </button>
