@@ -101,7 +101,7 @@ export default function MagicTreeClient({
 
   return (
     <div
-      className="relative w-full h-full overflow-hidden transition-colors duration-500"
+      className="relative w-full h-screen overflow-hidden transition-colors duration-500"
       style={{ backgroundColor: currentSeason.palette.background }}
     >
       {/* Top Header */}
@@ -123,7 +123,7 @@ export default function MagicTreeClient({
             onRegisterCapture={handleRegisterCapture}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-[#f7f3e8]" />
+          <div className="w-full h-full flex items-center justify-center bg-[#121415]" />
         )}
       </div>
 

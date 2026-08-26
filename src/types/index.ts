@@ -1,4 +1,4 @@
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter';
+export type Season = 'ronin' | 'cyber' | 'ember' | 'stealth' | 'spring' | 'summer' | 'autumn' | 'winter';
 export type ViewMode = '3d' | 'qr';
 
 export interface SeasonTheme {

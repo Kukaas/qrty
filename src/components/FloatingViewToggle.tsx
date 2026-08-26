@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ViewMode } from '@/types';
-import { QrCode, Trees, Sparkles } from 'lucide-react';
+import { QrCode, Trees } from 'lucide-react';
 import { sound } from '@/lib/audio';
 
 interface FloatingViewToggleProps {
@@ -14,23 +14,23 @@ export default function FloatingViewToggle({ viewMode, onToggle }: FloatingViewT
   const is3D = viewMode === '3d';
 
   return (
-    <div className="absolute bottom-36 sm:bottom-32 left-0 right-0 z-20 flex justify-center pointer-events-none">
+    <div className="absolute bottom-40 sm:bottom-36 left-0 right-0 z-20 flex justify-center pointer-events-none">
       <button
         onClick={() => {
           sound.playWoodClick();
           onToggle();
         }}
-        className="pointer-events-auto group flex items-center gap-2 px-4 py-2 rounded-full bg-[#fbf8f2]/95 hover:bg-white text-stone-700 hover:text-stone-900 border border-stone-200/80 shadow-sm backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+        className="pointer-events-auto group flex items-center gap-2.5 px-4 py-2 rounded-full bg-zinc-950/90 hover:bg-zinc-900 text-zinc-200 hover:text-white border border-zinc-800 shadow-xl shadow-black/80 backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer font-mono text-xs"
       >
         {is3D ? (
           <>
-            <QrCode className="w-4 h-4 text-pink-600 transition-transform group-hover:rotate-12" />
-            <span className="text-xs sm:text-sm font-medium tracking-tight">Tap the tree to see QR code</span>
+            <QrCode className="w-4 h-4 text-emerald-400 transition-transform group-hover:rotate-12" />
+            <span className="font-semibold tracking-tight">Tap diorama to flatten QR code</span>
           </>
         ) : (
           <>
-            <Trees className="w-4 h-4 text-emerald-600 transition-transform group-hover:-translate-y-0.5" />
-            <span className="text-xs sm:text-sm font-medium tracking-tight">Tap to see the tree</span>
+            <Trees className="w-4 h-4 text-emerald-400 transition-transform group-hover:-translate-y-0.5" />
+            <span className="font-semibold tracking-tight">Tap to view 3D diorama</span>
           </>
         )}
       </button>
