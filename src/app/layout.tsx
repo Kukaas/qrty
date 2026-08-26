@@ -4,7 +4,7 @@ import './globals.css';
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-poppins',
   display: 'swap',
 });
@@ -21,7 +21,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.variable}>
-      <body className="antialiased bg-[#f8f9fa] text-zinc-900 selection:bg-zinc-900 selection:text-white min-h-screen w-full">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased bg-[#f8f9fa] text-zinc-900 selection:bg-zinc-900 selection:text-white min-h-screen w-full font-sans">
         {children}
       </body>
     </html>
