@@ -14,7 +14,7 @@ export default function FloatingViewToggle({ viewMode, onToggle }: FloatingViewT
   const is3D = viewMode === '3d';
 
   return (
-    <div className="absolute bottom-40 sm:bottom-36 left-0 right-0 z-20 flex justify-center pointer-events-none">
+    <div className="absolute bottom-52 sm:bottom-44 left-0 right-0 z-20 flex justify-center pointer-events-none px-4">
       <button
         onClick={() => {
           sound.playWoodClick();

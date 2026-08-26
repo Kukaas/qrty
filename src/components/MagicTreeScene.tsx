@@ -327,7 +327,7 @@ export default function MagicTreeScene({
             });
           }
           if (fig.body) {
-            fig.body.position.y = 0.45 + Math.sin(elapsedTime * 3) * 0.015;
+            fig.body.position.y = 0.48 + Math.sin(elapsedTime * 3) * 0.015;
           }
         } else if (fig.type === 'ronin') {
           // Mecha Ronin: heroic warrior torso breathing
@@ -348,6 +348,42 @@ export default function MagicTreeScene({
             fig.body.rotation.z = Math.sin(elapsedTime * 1.5) * 0.04;
             fig.body.rotation.x = Math.cos(elapsedTime * 1.2) * 0.025;
             fig.body.position.y = 1.6 + Math.sin(elapsedTime * 2) * 0.03;
+          }
+        } else if (fig.type === 'tron') {
+          // Cyberbike: spin hubless wheels & subtle vibration
+          if (fig.wheels) {
+            fig.wheels.forEach((w) => {
+              w.rotation.z += 0.06;
+            });
+          }
+          if (fig.body) {
+            fig.body.position.y = 0.6 + Math.sin(elapsedTime * 3.5) * 0.015;
+          }
+        } else if (fig.type === 'ufo') {
+          // Mothership: rotate plasma ring & hovering wobble
+          if (fig.rings && fig.rings[0]) {
+            fig.rings[0].rotation.z += 0.025;
+          }
+          if (fig.body) {
+            fig.body.position.y = 2.2 + Math.sin(elapsedTime * 2) * 0.04;
+            fig.body.rotation.y += 0.008;
+          }
+        } else if (fig.type === 'chopper') {
+          // Gunship: spin main and tail rotors
+          if (fig.rotors && fig.rotors[0]) {
+            fig.rotors[0].rotation.y += 0.35;
+          }
+          if (fig.rotors && fig.rotors[1]) {
+            fig.rotors[1].rotation.x += 0.45;
+          }
+          if (fig.body) {
+            fig.body.position.y = 1.7 + Math.sin(elapsedTime * 3) * 0.025;
+          }
+        } else if (fig.type === 'blade') {
+          // Cyber Katana: rotate concentric energy rings
+          if (fig.rings) {
+            if (fig.rings[0]) fig.rings[0].rotation.z += 0.02;
+            if (fig.rings[1]) fig.rings[1].rotation.z -= 0.025;
           }
         }
       }

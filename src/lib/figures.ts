@@ -2,15 +2,17 @@ import * as THREE from 'three';
 import { SeasonTheme } from '@/types';
 
 export interface FigureAnimData {
-  type: 'ronin' | 'cyber' | 'ember' | 'stealth';
+  type: string;
   wheels?: THREE.Mesh[];
+  rotors?: THREE.Mesh[];
+  rings?: THREE.Mesh[];
   body?: THREE.Group;
   beacon?: THREE.Mesh | null;
   glowParts?: THREE.Mesh[];
 }
 
 /**
- * 1. 🏎️ Hypercar (Preset: cyber / speed)
+ * 1. 🏎️ Hypercar (Preset: cyber)
  * High-visibility Ceramic White & Brushed Titanium concept supercar.
  * High-contrast Gold/Amber front light bar and Laser Red rear light bar.
  * ZERO black and completely distinct from the blue QR floor.
@@ -24,7 +26,6 @@ export function buildHypercar(
   carGroup.position.set(0, 0.48, 0);
   group.add(carGroup);
 
-  // Gleaming Ceramic White body (high visibility against colored ground)
   const whiteBodyMat = new THREE.MeshStandardMaterial({
     color: 0xFFFFFF,
     metalness: 0.35,
@@ -32,21 +33,18 @@ export function buildHypercar(
     flatShading: true,
   });
 
-  // Brushed Platinum Silver for aerodynamic aero elements
   const silverAeroMat = new THREE.MeshStandardMaterial({
     color: 0xE2E8F0,
     metalness: 0.9,
     roughness: 0.15,
   });
 
-  // Ice Crystal Glass Canopy
   const glassMat = new THREE.MeshStandardMaterial({
     color: 0xBAE6FD,
     metalness: 0.9,
     roughness: 0.05,
   });
 
-  // Warm Gold / Amber Neon Headlight (contrasts against blue floor)
   const neonHeadlightMat = new THREE.MeshStandardMaterial({
     color: 0xF59E0B,
     emissive: 0xF59E0B,
@@ -54,7 +52,6 @@ export function buildHypercar(
     roughness: 0.1,
   });
 
-  // Laser Red Rear Taillight
   const neonTaillightMat = new THREE.MeshStandardMaterial({
     color: 0xEF4444,
     emissive: 0xEF4444,
@@ -62,7 +59,6 @@ export function buildHypercar(
     roughness: 0.1,
   });
 
-  // Silver Chrome Wheel Material (NO black)
   const wheelTireMat = new THREE.MeshStandardMaterial({
     color: 0x94A3B8,
     metalness: 0.8,
@@ -74,26 +70,26 @@ export function buildHypercar(
     roughness: 0.1,
   });
 
-  // 1. Lower chassis wedge (Pure Ceramic White)
+  // Lower chassis wedge
   const lowerChassis = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.45, 4.4), whiteBodyMat);
   lowerChassis.position.y = 0.22;
   lowerChassis.castShadow = true;
   lowerChassis.receiveShadow = true;
   carGroup.add(lowerChassis);
 
-  // 2. Cockpit cabin (Ice Crystal Glass)
+  // Cockpit cabin
   const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.55, 2.2), glassMat);
   cabin.position.set(0, 0.65, -0.2);
   cabin.castShadow = true;
   carGroup.add(cabin);
 
-  // 3. Roof panel (Ceramic White)
+  // Roof panel
   const roof = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.08, 1.8), whiteBodyMat);
   roof.position.set(0, 0.94, -0.2);
   roof.castShadow = true;
   carGroup.add(roof);
 
-  // 4. Front Hood & Splitter (Silver & White)
+  // Front Hood & Splitter
   const hood = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.2, 1.4), silverAeroMat);
   hood.position.set(0, 0.32, 1.5);
   hood.rotation.x = 0.08;
@@ -105,7 +101,7 @@ export function buildHypercar(
   splitter.castShadow = true;
   carGroup.add(splitter);
 
-  // 5. Rear Aerodynamic Wing / Spoiler (Platinum Silver)
+  // Rear Aerodynamic Wing / Spoiler
   const wingBlade = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.08, 0.6), silverAeroMat);
   wingBlade.position.set(0, 0.85, -2.1);
   wingBlade.castShadow = true;
@@ -118,7 +114,7 @@ export function buildHypercar(
   pylonR.position.set(0.8, 0.6, -2.05);
   carGroup.add(pylonR);
 
-  // 6. High-Visibility Neon Light Bars
+  // Neon Light Bars
   const frontLight = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 0.08), neonHeadlightMat);
   frontLight.position.set(0, 0.35, 2.22);
   carGroup.add(frontLight);
@@ -127,7 +123,7 @@ export function buildHypercar(
   rearLight.position.set(0, 0.35, -2.22);
   carGroup.add(rearLight);
 
-  // 7. Four Chrome Alloy Wheels (NO black)
+  // 4 Chrome Alloy Wheels
   const wheels: THREE.Mesh[] = [];
   const wheelPositions = [
     { x: -1.25, y: 0.2, z: 1.3 },
@@ -157,10 +153,9 @@ export function buildHypercar(
 }
 
 /**
- * 2. 🤖 Cyber Samurai Mecha (Preset: ronin / tactical warrior)
+ * 2. 🤖 Cyber Samurai Mecha (Preset: ronin)
  * Pristine Arctic White & Polished Silver Armor plates.
  * Electric Cobalt Blue core and Radiant Sun-Gold energy katanas.
- * ZERO black and pops brightly against the green QR floor.
  */
 export function buildCyberMecha(
   group: THREE.Group,
@@ -171,7 +166,6 @@ export function buildCyberMecha(
   mechaGroup.position.set(0, 0, 0);
   group.add(mechaGroup);
 
-  // Arctic White Main Armor Plates
   const whiteArmorMat = new THREE.MeshStandardMaterial({
     color: 0xFFFFFF,
     metalness: 0.3,
@@ -179,7 +173,6 @@ export function buildCyberMecha(
     flatShading: true,
   });
 
-  // Polished Silver Titanium joint/accent plates
   const silverMat = new THREE.MeshStandardMaterial({
     color: 0xCBD5E1,
     metalness: 0.85,
@@ -187,7 +180,6 @@ export function buildCyberMecha(
     flatShading: true,
   });
 
-  // High-Voltage Cobalt Blue Reactor (contrasts against green floor)
   const blueCoreMat = new THREE.MeshStandardMaterial({
     color: 0x2563EB,
     emissive: 0x2563EB,
@@ -195,7 +187,6 @@ export function buildCyberMecha(
     roughness: 0.1,
   });
 
-  // Sun-Gold Energy Katanas (radiant contrast against green floor)
   const katanaMat = new THREE.MeshStandardMaterial({
     color: 0xFBBF24,
     emissive: 0xF59E0B,
@@ -203,7 +194,7 @@ export function buildCyberMecha(
     roughness: 0.1,
   });
 
-  // 1. Sturdy White & Silver Legs
+  // Sturdy White & Silver Legs
   const legGeo = new THREE.BoxGeometry(0.42, 1.8, 0.55);
   const footGeo = new THREE.BoxGeometry(0.5, 0.25, 0.85);
 
@@ -219,7 +210,7 @@ export function buildCyberMecha(
     mechaGroup.add(foot);
   });
 
-  // 2. Torso & Chest Armor (Arctic White)
+  // Torso & Chest Armor
   const torsoGroup = new THREE.Group();
   torsoGroup.position.set(0, 1.8, 0);
   mechaGroup.add(torsoGroup);
@@ -234,35 +225,31 @@ export function buildCyberMecha(
   chest.castShadow = true;
   torsoGroup.add(chest);
 
-  // Chest V-Plate (Silver)
   const chestPlate = new THREE.Mesh(new THREE.ConeGeometry(0.7, 0.8, 4), silverMat);
   chestPlate.position.set(0, 1.0, 0.62);
   chestPlate.rotation.z = Math.PI;
   torsoGroup.add(chestPlate);
 
-  // Glowing Cobalt Fusion Reactor
   const reactor = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.15, 8), blueCoreMat);
   reactor.position.set(0, 1.0, 0.7);
   reactor.rotation.x = Math.PI / 2;
   torsoGroup.add(reactor);
 
-  // 3. Robotic Helmet & Glowing Visor
+  // Helmet & Crest
   const head = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.65, 0.75), whiteArmorMat);
   head.position.set(0, 1.9, 0);
   head.castShadow = true;
   torsoGroup.add(head);
 
-  // Golden Helmet Crest
   const crest = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.14, 0.2), katanaMat);
   crest.position.set(0, 2.3, 0.15);
   torsoGroup.add(crest);
 
-  // Visor Slit
   const visor = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.1, 0.08), blueCoreMat);
   visor.position.set(0, 1.92, 0.4);
   torsoGroup.add(visor);
 
-  // 4. Broad Silver Shoulder Pauldrons
+  // Shoulder Pauldrons
   [-1.25, 1.25].forEach((px) => {
     const pauldron = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.5, 0.8), silverMat);
     pauldron.position.set(px, 1.4, 0);
@@ -271,11 +258,10 @@ export function buildCyberMecha(
     torsoGroup.add(pauldron);
   });
 
-  // 5. Dual Glowing Sun-Gold Energy Katanas
+  // Dual Energy Katanas
   const swordGeo = new THREE.BoxGeometry(0.06, 3.2, 0.12);
   const hiltGeo = new THREE.BoxGeometry(0.12, 0.7, 0.18);
 
-  // Left Katana
   const swordL = new THREE.Mesh(swordGeo, katanaMat);
   swordL.position.set(-1.4, 0.8, 0.3);
   swordL.rotation.z = 0.45;
@@ -288,7 +274,6 @@ export function buildCyberMecha(
   hiltL.rotation.z = 0.45;
   torsoGroup.add(hiltL);
 
-  // Right Katana
   const swordR = new THREE.Mesh(swordGeo, katanaMat);
   swordR.position.set(1.4, 0.8, 0.3);
   swordR.rotation.z = -0.45;
@@ -305,10 +290,9 @@ export function buildCyberMecha(
 }
 
 /**
- * 3. 🚀 Starship (Preset: ember / exploration rocket)
+ * 3. 🚀 Starship (Preset: ember)
  * Gleaming Aerospace Gloss White & Polished Stainless Steel.
  * Electric Cyan telemetry stripes and intense fiery rocket plume.
- * ZERO black and shines radiantly against the crimson magma QR floor.
  */
 export function buildStarship(
   group: THREE.Group,
@@ -319,7 +303,6 @@ export function buildStarship(
   rocketGroup.position.set(0, 0.4, 0);
   group.add(rocketGroup);
 
-  // Gloss Aerospace White Fuselage
   const whiteHullMat = new THREE.MeshStandardMaterial({
     color: 0xFFFFFF,
     metalness: 0.3,
@@ -327,7 +310,6 @@ export function buildStarship(
     flatShading: true,
   });
 
-  // Polished Stainless Steel / Titanium Accents
   const steelMat = new THREE.MeshStandardMaterial({
     color: 0xE2E8F0,
     metalness: 0.92,
@@ -335,7 +317,6 @@ export function buildStarship(
     flatShading: true,
   });
 
-  // Electric Cyan Telemetry Stripe (contrasts against red floor)
   const cyanStripeMat = new THREE.MeshStandardMaterial({
     color: 0x06B6D4,
     emissive: 0x06B6D4,
@@ -343,7 +324,6 @@ export function buildStarship(
     roughness: 0.2,
   });
 
-  // Rocket Engine Fiery Plasma Exhaust
   const engineFlameMat = new THREE.MeshStandardMaterial({
     color: 0xF97316,
     emissive: 0xEA580C,
@@ -351,31 +331,29 @@ export function buildStarship(
     roughness: 0.1,
   });
 
-  // 1. Rocket Cylindrical Fuselage (Pure Gloss White)
+  // Fuselage
   const fuselage = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.95, 4.8, 12), whiteHullMat);
   fuselage.position.y = 2.4;
   fuselage.castShadow = true;
   fuselage.receiveShadow = true;
   rocketGroup.add(fuselage);
 
-  // Stainless Steel Band
   const steelBand = new THREE.Mesh(new THREE.CylinderGeometry(0.86, 0.86, 0.4, 12), steelMat);
   steelBand.position.y = 3.6;
   steelBand.castShadow = true;
   rocketGroup.add(steelBand);
 
-  // Cyan Telemetry Ring
   const cyanRing = new THREE.Mesh(new THREE.CylinderGeometry(0.865, 0.865, 0.15, 12), cyanStripeMat);
   cyanRing.position.y = 4.2;
   rocketGroup.add(cyanRing);
 
-  // 2. Aerodynamic Nose Cone (Gloss White)
+  // Nose Cone
   const noseCone = new THREE.Mesh(new THREE.ConeGeometry(0.85, 1.8, 12), whiteHullMat);
   noseCone.position.y = 5.7;
   noseCone.castShadow = true;
   rocketGroup.add(noseCone);
 
-  // 3. Grid Fins (Polished Stainless Steel - 4 fins)
+  // Grid Fins
   const gridFinGeo = new THREE.BoxGeometry(0.45, 0.45, 0.08);
   for (let i = 0; i < 4; i++) {
     const angle = (i * Math.PI) / 2;
@@ -387,7 +365,7 @@ export function buildStarship(
     rocketGroup.add(fin);
   }
 
-  // 4. Landing Struts (Brushed Silver Legs extending to ground)
+  // Landing Struts
   for (let i = 0; i < 4; i++) {
     const angle = (i * Math.PI) / 2 + Math.PI / 4;
     const strut = new THREE.Mesh(new THREE.BoxGeometry(0.14, 1.6, 0.2), steelMat);
@@ -398,24 +376,23 @@ export function buildStarship(
     rocketGroup.add(strut);
   }
 
-  // 5. Rocket Engine Bell & Fiery Plasma Exhaust
+  // Engine Bell & Flame Plume
   const engineBell = new THREE.Mesh(new THREE.CylinderGeometry(0.65, 0.4, 0.6, 12), steelMat);
   engineBell.position.y = -0.15;
   rocketGroup.add(engineBell);
 
   const flamePlume = new THREE.Mesh(new THREE.ConeGeometry(0.48, 1.3, 10), engineFlameMat);
   flamePlume.position.y = -0.9;
-  flamePlume.rotation.x = Math.PI; // pointing down
+  flamePlume.rotation.x = Math.PI;
   rocketGroup.add(flamePlume);
 
   return { type: 'ember', body: rocketGroup, beacon: flamePlume, glowParts: [flamePlume, cyanRing] };
 }
 
 /**
- * 4. ✈️ Stealth Jet Fighter (Preset: stealth / supersonic aircraft)
+ * 4. ✈️ Stealth Jet (Preset: stealth)
  * Arctic Snow Camo White & Polished Titanium skin.
  * Gold Iridium reflector canopy and radiant Cobalt afterburners.
- * ZERO black and stands out dramatically above the dark graphite QR floor.
  */
 export function buildStealthJet(
   group: THREE.Group,
@@ -423,10 +400,9 @@ export function buildStealthJet(
   _customColorHex?: string
 ): FigureAnimData {
   const jetGroup = new THREE.Group();
-  jetGroup.position.set(0, 1.6, 0); // elevated in hovering flight pose
+  jetGroup.position.set(0, 1.6, 0);
   group.add(jetGroup);
 
-  // Arctic Snow Camo White Aircraft Skin
   const whiteJetMat = new THREE.MeshStandardMaterial({
     color: 0xFFFFFF,
     metalness: 0.4,
@@ -434,14 +410,12 @@ export function buildStealthJet(
     flatShading: true,
   });
 
-  // Titanium Leading Edges
   const titaniumMat = new THREE.MeshStandardMaterial({
     color: 0xCBD5E1,
     metalness: 0.9,
     roughness: 0.15,
   });
 
-  // Gold Iridium Reflective Canopy Glass
   const goldCanopyMat = new THREE.MeshStandardMaterial({
     color: 0xFBBF24,
     emissive: 0xD97706,
@@ -450,7 +424,6 @@ export function buildStealthJet(
     roughness: 0.05,
   });
 
-  // Radiant Cobalt/Cyan Afterburners
   const afterburnerMat = new THREE.MeshStandardMaterial({
     color: 0x06B6D4,
     emissive: 0x0284C7,
@@ -458,13 +431,12 @@ export function buildStealthJet(
     roughness: 0.1,
   });
 
-  // 1. Chined Fuselage (Arctic White)
+  // Fuselage & Nose
   const fuselage = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.42, 4.8), whiteJetMat);
   fuselage.castShadow = true;
   fuselage.receiveShadow = true;
   jetGroup.add(fuselage);
 
-  // Sharp Titanium Nose Cone
   const nose = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.6, 4), titaniumMat);
   nose.position.set(0, 0, 3.1);
   nose.rotation.x = Math.PI / 2;
@@ -472,13 +444,13 @@ export function buildStealthJet(
   nose.castShadow = true;
   jetGroup.add(nose);
 
-  // 2. Cockpit Canopy (Gold Iridium Glass)
+  // Canopy
   const canopy = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.38, 1.5), goldCanopyMat);
   canopy.position.set(0, 0.32, 0.9);
   canopy.castShadow = true;
   jetGroup.add(canopy);
 
-  // 3. Swept Delta Wings (Arctic White with Titanium Edges)
+  // Swept Wings
   const wingL = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.06, 2.2), whiteJetMat);
   wingL.position.set(-1.4, 0, -0.4);
   wingL.rotation.y = -0.3;
@@ -491,20 +463,20 @@ export function buildStealthJet(
   wingR.castShadow = true;
   jetGroup.add(wingR);
 
-  // 4. Twin Canted Vertical Stabilizers (V-Tails)
+  // Canted V-Tails
   const tailL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.1, 0.9), titaniumMat);
   tailL.position.set(-0.55, 0.65, -1.8);
-  tailL.rotation.z = 0.32; // canted outward
+  tailL.rotation.z = 0.32;
   tailL.castShadow = true;
   jetGroup.add(tailL);
 
   const tailR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.1, 0.9), titaniumMat);
   tailR.position.set(0.55, 0.65, -1.8);
-  tailR.rotation.z = -0.32; // canted outward
+  tailR.rotation.z = -0.32;
   tailR.castShadow = true;
   jetGroup.add(tailR);
 
-  // 5. Twin Thrust-Vectoring Afterburners (Radiant Cyan Glow)
+  // Twin Afterburners
   const nozzleGeo = new THREE.BoxGeometry(0.35, 0.22, 0.15);
   [-0.32, 0.32].forEach((nx) => {
     const flame = new THREE.Mesh(nozzleGeo, afterburnerMat);
@@ -512,13 +484,282 @@ export function buildStealthJet(
     jetGroup.add(flame);
   });
 
-  // Minimalist silver support pylon
   const pylon = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.12, 1.6, 8), titaniumMat);
   pylon.position.set(0, -0.8, 0);
   pylon.castShadow = true;
   jetGroup.add(pylon);
 
   return { type: 'stealth', body: jetGroup };
+}
+
+/**
+ * 5. 🏍️ Cyberbike (Preset: tron)
+ * Streamlined aerodynamic white light-cycle with dual glowing neon cyan hubless wheels.
+ */
+export function buildCyberbike(
+  group: THREE.Group,
+  _season: SeasonTheme,
+  _customColorHex?: string
+): FigureAnimData {
+  const bikeGroup = new THREE.Group();
+  bikeGroup.position.set(0, 0.6, 0);
+  group.add(bikeGroup);
+
+  const whiteMat = new THREE.MeshStandardMaterial({
+    color: 0xFFFFFF,
+    metalness: 0.35,
+    roughness: 0.15,
+    flatShading: true,
+  });
+
+  const silverMat = new THREE.MeshStandardMaterial({
+    color: 0xCBD5E1,
+    metalness: 0.9,
+    roughness: 0.2,
+  });
+
+  const cyanGlowMat = new THREE.MeshStandardMaterial({
+    color: 0x06B6D4,
+    emissive: 0x06B6D4,
+    emissiveIntensity: 3.0,
+    roughness: 0.1,
+  });
+
+  // Aerodynamic Monocoque Body
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.9, 3.2), whiteMat);
+  body.position.y = 0.25;
+  body.castShadow = true;
+  bikeGroup.add(body);
+
+  // Upper Streamlined Canopy
+  const canopy = new THREE.Mesh(new THREE.ConeGeometry(0.48, 1.6, 4), silverMat);
+  canopy.position.set(0, 0.45, 0.8);
+  canopy.rotation.x = Math.PI / 2;
+  canopy.rotation.y = Math.PI / 4;
+  bikeGroup.add(canopy);
+
+  // Dual Glowing Hubless Wheel Rings
+  const wheelGeo = new THREE.TorusGeometry(0.65, 0.14, 12, 32);
+  const frontWheel = new THREE.Mesh(wheelGeo, cyanGlowMat);
+  frontWheel.position.set(0, 0.1, 1.4);
+  bikeGroup.add(frontWheel);
+
+  const rearWheel = new THREE.Mesh(wheelGeo, cyanGlowMat);
+  rearWheel.position.set(0, 0.15, -1.4);
+  bikeGroup.add(rearWheel);
+
+  return { type: 'tron', wheels: [frontWheel, rearWheel], body: bikeGroup, glowParts: [frontWheel, rearWheel] };
+}
+
+/**
+ * 6. 🛸 Mothership / UFO (Preset: ufo)
+ * Multi-tiered futuristic flying saucer with glowing cosmic violet tractor beam.
+ */
+export function buildMothership(
+  group: THREE.Group,
+  _season: SeasonTheme,
+  _customColorHex?: string
+): FigureAnimData {
+  const ufoGroup = new THREE.Group();
+  ufoGroup.position.set(0, 2.2, 0);
+  group.add(ufoGroup);
+
+  const whiteSaucerMat = new THREE.MeshStandardMaterial({
+    color: 0xFFFFFF,
+    metalness: 0.4,
+    roughness: 0.2,
+    flatShading: true,
+  });
+
+  const chromeMat = new THREE.MeshStandardMaterial({
+    color: 0xE2E8F0,
+    metalness: 0.95,
+    roughness: 0.1,
+  });
+
+  const tractorMat = new THREE.MeshStandardMaterial({
+    color: 0xA78BFA,
+    emissive: 0x7C3AED,
+    emissiveIntensity: 2.8,
+    transparent: true,
+    opacity: 0.65,
+    roughness: 0.1,
+  });
+
+  // Lower Saucer Disc
+  const lowerDisc = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 0.8, 0.35, 16), whiteSaucerMat);
+  lowerDisc.castShadow = true;
+  ufoGroup.add(lowerDisc);
+
+  // Upper Dome
+  const upperDome = new THREE.Mesh(new THREE.SphereGeometry(1.2, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2), chromeMat);
+  upperDome.position.y = 0.15;
+  upperDome.castShadow = true;
+  ufoGroup.add(upperDome);
+
+  // Outer Plasma Node Ring
+  const plasmaRing = new THREE.Mesh(new THREE.TorusGeometry(2.2, 0.08, 8, 36), tractorMat);
+  plasmaRing.rotation.x = Math.PI / 2;
+  ufoGroup.add(plasmaRing);
+
+  // Glowing Tractor Beam radiating down
+  const beam = new THREE.Mesh(new THREE.ConeGeometry(1.5, 2.4, 16, 1, true), tractorMat);
+  beam.position.y = -1.35;
+  beam.rotation.x = Math.PI;
+  ufoGroup.add(beam);
+
+  return { type: 'ufo', rings: [plasmaRing], body: ufoGroup, beacon: beam };
+}
+
+/**
+ * 7. 🚁 Attack Gunship (Preset: chopper)
+ * Minimalist attack helicopter with spinning 4-blade main rotor and tail rotor.
+ */
+export function buildGunship(
+  group: THREE.Group,
+  _season: SeasonTheme,
+  _customColorHex?: string
+): FigureAnimData {
+  const chopperGroup = new THREE.Group();
+  chopperGroup.position.set(0, 1.7, 0);
+  group.add(chopperGroup);
+
+  const whiteMat = new THREE.MeshStandardMaterial({
+    color: 0xFFFFFF,
+    metalness: 0.3,
+    roughness: 0.2,
+    flatShading: true,
+  });
+
+  const steelMat = new THREE.MeshStandardMaterial({
+    color: 0xCBD5E1,
+    metalness: 0.85,
+    roughness: 0.2,
+  });
+
+  const amberGlowMat = new THREE.MeshStandardMaterial({
+    color: 0xF59E0B,
+    emissive: 0xD97706,
+    emissiveIntensity: 2.5,
+    roughness: 0.1,
+  });
+
+  // Fuselage
+  const fuselage = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.2, 3.8), whiteMat);
+  fuselage.castShadow = true;
+  chopperGroup.add(fuselage);
+
+  // Nose Canopy (Amber glass)
+  const canopy = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.6, 1.2), amberGlowMat);
+  canopy.position.set(0, 0.2, 1.6);
+  chopperGroup.add(canopy);
+
+  // Tail Boom
+  const tailBoom = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.3, 2.8, 8), steelMat);
+  tailBoom.position.set(0, 0.2, -2.8);
+  tailBoom.rotation.x = Math.PI / 2;
+  chopperGroup.add(tailBoom);
+
+  // Tail Fin
+  const tailFin = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.9, 0.6), whiteMat);
+  tailFin.position.set(0, 0.6, -4.0);
+  chopperGroup.add(tailFin);
+
+  // Main Rotor Hub & 4 Blades
+  const rotorHub = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.35, 8), steelMat);
+  rotorHub.position.y = 0.75;
+  chopperGroup.add(rotorHub);
+
+  const mainRotor = new THREE.Mesh(new THREE.BoxGeometry(4.4, 0.04, 0.24), steelMat);
+  mainRotor.position.y = 0.92;
+  chopperGroup.add(mainRotor);
+
+  // Tail Rotor
+  const tailRotor = new THREE.Mesh(new THREE.BoxGeometry(0.03, 1.1, 0.12), amberGlowMat);
+  tailRotor.position.set(0.12, 0.6, -4.0);
+  chopperGroup.add(tailRotor);
+
+  // Pylon
+  const pylon = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.12, 1.7, 8), steelMat);
+  pylon.position.set(0, -0.85, 0);
+  chopperGroup.add(pylon);
+
+  return { type: 'chopper', rotors: [mainRotor, tailRotor], body: chopperGroup };
+}
+
+/**
+ * 8. ⚔️ Cyber Katana (Preset: blade)
+ * Legendary glowing crimson plasma katana plunged into an ancient white monument plinth.
+ */
+export function buildCyberKatana(
+  group: THREE.Group,
+  _season: SeasonTheme,
+  _customColorHex?: string
+): FigureAnimData {
+  const bladeGroup = new THREE.Group();
+  bladeGroup.position.set(0, 0, 0);
+  group.add(bladeGroup);
+
+  const stonePlinthMat = new THREE.MeshStandardMaterial({
+    color: 0xFFFFFF,
+    roughness: 0.85,
+    metalness: 0.05,
+    flatShading: true,
+  });
+
+  const steelMat = new THREE.MeshStandardMaterial({
+    color: 0xCBD5E1,
+    metalness: 0.92,
+    roughness: 0.15,
+  });
+
+  const crimsonPlasmaMat = new THREE.MeshStandardMaterial({
+    color: 0xF43F5E,
+    emissive: 0xE11D48,
+    emissiveIntensity: 3.2,
+    roughness: 0.1,
+  });
+
+  // Ancient Monument Plinth
+  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 1.2, 1.4, 6), stonePlinthMat);
+  plinth.position.y = 0.7;
+  plinth.castShadow = true;
+  plinth.receiveShadow = true;
+  bladeGroup.add(plinth);
+
+  // Plinth Cap
+  const plinthCap = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.2, 1.6), steelMat);
+  plinthCap.position.y = 1.45;
+  plinthCap.castShadow = true;
+  bladeGroup.add(plinthCap);
+
+  // High-Energy Plasma Katana Blade (plunged in stone)
+  const katanaBlade = new THREE.Mesh(new THREE.BoxGeometry(0.08, 3.8, 0.22), crimsonPlasmaMat);
+  katanaBlade.position.set(0, 2.9, 0);
+  katanaBlade.castShadow = true;
+  bladeGroup.add(katanaBlade);
+
+  // Katana Tsuba (Guard) & Tsuka (Hilt)
+  const tsuba = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.08, 0.45), steelMat);
+  tsuba.position.set(0, 4.6, 0);
+  bladeGroup.add(tsuba);
+
+  const hilt = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.3, 8), stonePlinthMat);
+  hilt.position.set(0, 5.25, 0);
+  bladeGroup.add(hilt);
+
+  // Concentric Energy Rings
+  const ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.2, 0.04, 8, 36), crimsonPlasmaMat);
+  ring1.position.y = 2.8;
+  ring1.rotation.x = Math.PI / 3;
+  bladeGroup.add(ring1);
+
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.5, 0.03, 8, 36), crimsonPlasmaMat);
+  ring2.position.y = 3.6;
+  ring2.rotation.x = -Math.PI / 4;
+  bladeGroup.add(ring2);
+
+  return { type: 'blade', rings: [ring1, ring2], beacon: katanaBlade };
 }
 
 /**
@@ -539,5 +780,20 @@ export function buildFigure(
   if (id === 'ember' || id === 'autumn') {
     return buildStarship(group, season, customColorHex);
   }
-  return buildStealthJet(group, season, customColorHex);
+  if (id === 'stealth' || id === 'winter') {
+    return buildStealthJet(group, season, customColorHex);
+  }
+  if (id === 'tron') {
+    return buildCyberbike(group, season, customColorHex);
+  }
+  if (id === 'ufo') {
+    return buildMothership(group, season, customColorHex);
+  }
+  if (id === 'chopper') {
+    return buildGunship(group, season, customColorHex);
+  }
+  if (id === 'blade') {
+    return buildCyberKatana(group, season, customColorHex);
+  }
+  return buildHypercar(group, season, customColorHex);
 }
