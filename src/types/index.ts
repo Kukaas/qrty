@@ -1,4 +1,4 @@
-export type Season = 'cyber' | 'ronin' | 'ember' | 'stealth' | 'tron' | 'ufo' | 'chopper' | 'blade' | 'spring' | 'summer' | 'autumn' | 'winter';
+export type Season = 'cyber' | 'ronin' | 'ember' | 'stealth' | 'tank' | 'tron' | 'ufo' | 'chopper' | 'blade' | 'spring' | 'summer' | 'autumn' | 'winter';
 export type ViewMode = '3d' | 'qr';
 
 export interface SeasonTheme {

@@ -349,15 +349,13 @@ export default function MagicTreeScene({
             fig.body.rotation.x = Math.cos(elapsedTime * 1.2) * 0.025;
             fig.body.position.y = 1.6 + Math.sin(elapsedTime * 2) * 0.03;
           }
-        } else if (fig.type === 'tron') {
-          // Cyberbike: spin hubless wheels & subtle vibration
-          if (fig.wheels) {
-            fig.wheels.forEach((w) => {
-              w.rotation.z += 0.06;
-            });
+        } else if (fig.type === 'tank' || fig.type === 'tron') {
+          // Cyber Tank: traversing turret scanning perimeter & subtle engine idle rumble
+          if (fig.turret) {
+            fig.turret.rotation.y = Math.sin(elapsedTime * 0.8) * 0.45;
           }
           if (fig.body) {
-            fig.body.position.y = 0.6 + Math.sin(elapsedTime * 3.5) * 0.015;
+            fig.body.position.y = 0.45 + Math.sin(elapsedTime * 5) * 0.008;
           }
         } else if (fig.type === 'ufo') {
           // Mothership: rotate plasma ring & hovering wobble

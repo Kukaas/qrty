@@ -6,6 +6,7 @@ export interface FigureAnimData {
   wheels?: THREE.Mesh[];
   rotors?: THREE.Mesh[];
   rings?: THREE.Mesh[];
+  turret?: THREE.Group;
   body?: THREE.Group;
   beacon?: THREE.Mesh | null;
   glowParts?: THREE.Mesh[];
@@ -493,62 +494,134 @@ export function buildStealthJet(
 }
 
 /**
- * 5. 🏍️ Cyberbike (Preset: tron)
- * Streamlined aerodynamic white light-cycle with dual glowing neon cyan hubless wheels.
+ * 5. 🛡️ Cyber Tank (Preset: tank / tron)
+ * Heavy futuristic stealth railgun tank with continuous all-terrain treads,
+ * traversing 360-degree turret, and dual high-energy plasma railgun cannons.
+ * Pure Ceramic White & Titanium Silver with glowing cyan accelerator coils.
  */
-export function buildCyberbike(
+export function buildCyberTank(
   group: THREE.Group,
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
-  const bikeGroup = new THREE.Group();
-  bikeGroup.position.set(0, 0.6, 0);
-  group.add(bikeGroup);
+  const tankGroup = new THREE.Group();
+  tankGroup.position.set(0, 0.45, 0);
+  group.add(tankGroup);
 
-  const whiteMat = new THREE.MeshStandardMaterial({
+  const whiteHullMat = new THREE.MeshStandardMaterial({
     color: 0xFFFFFF,
     metalness: 0.35,
-    roughness: 0.15,
+    roughness: 0.2,
     flatShading: true,
   });
 
-  const silverMat = new THREE.MeshStandardMaterial({
+  const titaniumMat = new THREE.MeshStandardMaterial({
     color: 0xCBD5E1,
     metalness: 0.9,
-    roughness: 0.2,
+    roughness: 0.18,
+    flatShading: true,
   });
 
-  const cyanGlowMat = new THREE.MeshStandardMaterial({
+  const treadMat = new THREE.MeshStandardMaterial({
+    color: 0x94A3B8,
+    metalness: 0.75,
+    roughness: 0.4,
+  });
+
+  const railgunGlowMat = new THREE.MeshStandardMaterial({
     color: 0x06B6D4,
-    emissive: 0x06B6D4,
-    emissiveIntensity: 3.0,
+    emissive: 0x0891B2,
+    emissiveIntensity: 3.2,
     roughness: 0.1,
   });
 
-  // Aerodynamic Monocoque Body
-  const body = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.9, 3.2), whiteMat);
-  body.position.y = 0.25;
-  body.castShadow = true;
-  bikeGroup.add(body);
+  const opticSensorMat = new THREE.MeshStandardMaterial({
+    color: 0xF59E0B,
+    emissive: 0xD97706,
+    emissiveIntensity: 2.8,
+    roughness: 0.1,
+  });
 
-  // Upper Streamlined Canopy
-  const canopy = new THREE.Mesh(new THREE.ConeGeometry(0.48, 1.6, 4), silverMat);
-  canopy.position.set(0, 0.45, 0.8);
-  canopy.rotation.x = Math.PI / 2;
-  canopy.rotation.y = Math.PI / 4;
-  bikeGroup.add(canopy);
+  // 1. Lower Hull Chassis (Sloped stealth glacis plates)
+  const chassis = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.55, 3.4), whiteHullMat);
+  chassis.position.y = 0.28;
+  chassis.castShadow = true;
+  chassis.receiveShadow = true;
+  tankGroup.add(chassis);
 
-  // Dual Glowing Hubless Wheel Rings
-  const wheelGeo = new THREE.TorusGeometry(0.65, 0.14, 12, 32);
-  const frontWheel = new THREE.Mesh(wheelGeo, cyanGlowMat);
-  frontWheel.position.set(0, 0.1, 1.4);
-  bikeGroup.add(frontWheel);
+  // Front Sloped Glacis
+  const frontGlacis = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.35, 1.0), titaniumMat);
+  frontGlacis.position.set(0, 0.32, 1.8);
+  frontGlacis.rotation.x = -0.35;
+  frontGlacis.castShadow = true;
+  tankGroup.add(frontGlacis);
 
-  const rearWheel = new THREE.Mesh(wheelGeo, cyanGlowMat);
-  rearWheel.position.set(0, 0.15, -1.4);
-  bikeGroup.add(rearWheel);
+  // 2. Four Independent All-Terrain Tread Units
+  const treadPositions = [
+    { x: -1.35, z: 0 },
+    { x: 1.35, z: 0 },
+  ];
 
-  return { type: 'tron', wheels: [frontWheel, rearWheel], body: bikeGroup, glowParts: [frontWheel, rearWheel] };
+  treadPositions.forEach((tp) => {
+    const tread = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.65, 3.6), treadMat);
+    tread.position.set(tp.x, 0.22, tp.z);
+    tread.castShadow = true;
+    tankGroup.add(tread);
+
+    const skirt = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.12, 3.8), whiteHullMat);
+    skirt.position.set(tp.x, 0.55, tp.z);
+    skirt.castShadow = true;
+    tankGroup.add(skirt);
+  });
+
+  // 3. Traversing Turret Group
+  const turretGroup = new THREE.Group();
+  turretGroup.position.set(0, 0.58, -0.2);
+  tankGroup.add(turretGroup);
+
+  const turretBody = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.4, 0.65, 6), whiteHullMat);
+  turretBody.position.y = 0.32;
+  turretBody.castShadow = true;
+  turretGroup.add(turretBody);
+
+  const cupola = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.3, 0.45), titaniumMat);
+  cupola.position.set(0.5, 0.75, -0.3);
+  cupola.castShadow = true;
+  turretGroup.add(cupola);
+
+  const opticEye = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.1, 0.08), opticSensorMat);
+  opticEye.position.set(0.5, 0.8, -0.06);
+  turretGroup.add(opticEye);
+
+  const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.04, 1.4, 6), titaniumMat);
+  antenna.position.set(-0.6, 1.3, -0.6);
+  antenna.rotation.x = -0.15;
+  turretGroup.add(antenna);
+
+  // 4. Dual Railgun Cannons
+  const cannonMantle = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.35, 0.6), titaniumMat);
+  cannonMantle.position.set(0, 0.38, 1.1);
+  turretGroup.add(cannonMantle);
+
+  const barrelGeo = new THREE.CylinderGeometry(0.1, 0.12, 2.6, 8);
+  [-0.32, 0.32].forEach((bx) => {
+    const barrel = new THREE.Mesh(barrelGeo, titaniumMat);
+    barrel.position.set(bx, 0.38, 2.4);
+    barrel.rotation.x = Math.PI / 2;
+    barrel.castShadow = true;
+    turretGroup.add(barrel);
+
+    const coil = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.7, 8), railgunGlowMat);
+    coil.position.set(bx, 0.38, 2.5);
+    coil.rotation.x = Math.PI / 2;
+    turretGroup.add(coil);
+
+    const muzzle = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.22, 0.25), titaniumMat);
+    muzzle.position.set(bx, 0.38, 3.7);
+    turretGroup.add(muzzle);
+  });
+
+  return { type: 'tank', turret: turretGroup, body: tankGroup, glowParts: [opticEye] };
 }
 
 /**
@@ -783,8 +856,8 @@ export function buildFigure(
   if (id === 'stealth' || id === 'winter') {
     return buildStealthJet(group, season, customColorHex);
   }
-  if (id === 'tron') {
-    return buildCyberbike(group, season, customColorHex);
+  if (id === 'tank' || id === 'tron') {
+    return buildCyberTank(group, season, customColorHex);
   }
   if (id === 'ufo') {
     return buildMothership(group, season, customColorHex);

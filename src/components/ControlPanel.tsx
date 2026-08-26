@@ -33,7 +33,7 @@ const PRESET_LIST: Season[] = [
   'ronin',
   'ember',
   'stealth',
-  'tron',
+  'tank',
   'ufo',
   'chopper',
   'blade',
