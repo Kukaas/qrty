@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Info, CheckCircle2, ChevronRight, Home } from 'lucide-react';
+import { Info, CheckCircle2, ChevronRight } from 'lucide-react';
 import { sound } from '@/lib/audio';
+import { LogoMark } from '@/components/Logo';
 
 interface HeaderProps {
   onOpenInfo: () => void;
@@ -27,10 +28,10 @@ export default function Header({
         <Link
           href="/"
           onClick={() => sound.playWoodClick()}
-          className="flex items-center gap-1 hover:text-zinc-950 transition-colors font-bold text-zinc-900"
+          className="flex items-center gap-1.5 hover:text-zinc-950 transition-colors font-bold text-zinc-900"
           title="Return to qrty Home"
         >
-          <Home className="w-3.5 h-3.5 text-zinc-700" />
+          <LogoMark size={16} />
           <span>qrty</span>
         </Link>
 

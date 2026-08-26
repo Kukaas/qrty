@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { X, QrCode, Trees, ShieldCheck, Cpu, ExternalLink } from 'lucide-react';
+import { X, QrCode, Trees, ShieldCheck, ExternalLink } from 'lucide-react';
 import { sound } from '@/lib/audio';
+import { LogoMark } from '@/components/Logo';
 
 interface InfoModalProps {
   isOpen: boolean;
@@ -18,9 +19,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 bg-zinc-50/70">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-900">
-              <Cpu className="w-4 h-4" />
-            </div>
+            <LogoMark size={32} />
             <div>
               <h2 className="text-sm font-bold text-zinc-900 leading-none font-mono">qrty // Architecture</h2>
               <span className="text-xs text-zinc-500 font-mono">Tactical 3D QR System • v1.0.0</span>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Cpu, Layers, ShieldCheck, Zap, QrCode, ExternalLink, MessageSquare, Globe } from 'lucide-react';
 import LandingHeroClient from '@/components/LandingHeroClient';
+import Logo from '@/components/Logo';
 
 export const metadata: Metadata = {
   title: 'qrty — Engineered 3D QR Codes',
@@ -89,14 +90,7 @@ export default function LandingPage() {
       {/* Top Navbar */}
       <nav className="w-full border-b border-zinc-200/80 bg-white/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="font-bold text-2xl tracking-tight text-zinc-900 font-sans group-hover:text-zinc-700 transition-colors">
-              qrty
-            </span>
-            <span className="text-[10px] font-mono font-bold tracking-wider text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200 uppercase">
-              v1.0.0
-            </span>
-          </Link>
+          <Logo badge="v1.0.0" size={32} />
 
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
             <a href="#specs" className="hover:text-zinc-900 transition-colors">Specifications</a>
@@ -351,14 +345,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4">
             {/* Col 1: Brand & Creator Info */}
             <div className="flex flex-col gap-3 md:col-span-2">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-xl tracking-tight text-zinc-900 font-sans">
-                  qrty
-                </span>
-                <span className="text-[10px] font-mono font-bold tracking-wider text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200 uppercase">
-                  v1.0.0
-                </span>
-              </div>
+              <Logo badge="v1.0.0" size={28} />
               <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed max-w-md">
                 Engineered by <strong className="text-zinc-900">Chester Luke Maligaso</strong> (<a href="https://kukaass.app" target="_blank" rel="noopener noreferrer" className="underline hover:text-black font-semibold">kukaass.app</a>). A high-precision 3D QR diorama generator combining hardware WebGL rendering with Mil-Spec error correction.
               </p>
