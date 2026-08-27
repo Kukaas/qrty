@@ -30,11 +30,34 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 
   return {
     title: `qrty Studio — 3D QR Code (${targetUrl})`,
-    description: `Tactical 3D QR diorama for ${targetUrl}. Scannable, customizable, and engineered.`,
+    description: `Tactical 3D QR diorama for ${targetUrl}. Scannable, customizable, and engineered by Chester Luke Maligaso.`,
+    alternates: {
+      canonical: 'https://qrty.kukaass.app/create',
+    },
+    authors: [
+      { name: 'Chester Luke A. Maligaso', url: 'https://kukaass.app' },
+      { name: 'Kukaass', url: 'https://kukaass.app' },
+    ],
+    creator: 'Chester Luke A. Maligaso (Chester Maligaso)',
     openGraph: {
       title: 'qrty Studio — 3D QR Code Generator',
-      description: `Turn ${targetUrl} into a 3D tactical diorama that doubles as an instant scannable QR code.`,
+      description: `Turn ${targetUrl} into a 3D tactical diorama that doubles as an instant scannable QR code. Built by Chester Luke Maligaso.`,
       type: 'website',
+      url: 'https://qrty.kukaass.app/create',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: 'qrty Studio — 3D QR Code Generator',
+        },
+        {
+          url: '/icon-512.png',
+          width: 512,
+          height: 512,
+          alt: 'qrty Logo',
+        },
+      ],
     },
   };
 }
@@ -89,18 +112,12 @@ export default async function CreatePage({ searchParams }: PageProps) {
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Kukaass',
-        item: 'https://kukaass.app',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
         name: 'qrty',
         item: 'https://qrty.kukaass.app',
       },
       {
         '@type': 'ListItem',
-        position: 3,
+        position: 2,
         name: 'Studio',
         item: 'https://qrty.kukaass.app/create',
       },

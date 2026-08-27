@@ -81,11 +81,28 @@ export default function LandingPage() {
     ],
   };
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'qrty',
+        item: 'https://qrty.kukaass.app',
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen w-full bg-[#f8f9fa] text-zinc-900 selection:bg-zinc-900 selection:text-white font-sans antialiased overflow-x-clip">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* Top Navbar */}
       <nav className="sticky top-0 z-50 w-full border-b border-zinc-200/80 bg-white/85 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 transition-all shadow-xs">
