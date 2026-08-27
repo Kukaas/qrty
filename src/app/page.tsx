@@ -379,7 +379,7 @@ export default function LandingPage() {
                   <span>kukaass.app</span>
                 </a>
                 <a
-                  href="https://github.com/kukaass"
+                  href="https://github.com/kukaas"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-mono transition-colors"
