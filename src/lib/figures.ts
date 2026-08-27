@@ -23,6 +23,7 @@ export function buildHypercar(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const carGroup = new THREE.Group();
   carGroup.position.set(0, 0.48, 0);
   group.add(carGroup);
@@ -47,15 +48,15 @@ export function buildHypercar(
   });
 
   const neonHeadlightMat = new THREE.MeshStandardMaterial({
-    color: 0xF59E0B,
-    emissive: 0xF59E0B,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.0,
     roughness: 0.1,
   });
 
   const neonTaillightMat = new THREE.MeshStandardMaterial({
-    color: 0xEF4444,
-    emissive: 0xEF4444,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.0,
     roughness: 0.1,
   });
@@ -163,8 +164,10 @@ export function buildCyberMecha(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const mechaGroup = new THREE.Group();
   mechaGroup.position.set(0, 0, 0);
+  mechaGroup.scale.set(0.72, 0.72, 0.72);
   group.add(mechaGroup);
 
   const whiteArmorMat = new THREE.MeshStandardMaterial({
@@ -182,15 +185,15 @@ export function buildCyberMecha(
   });
 
   const blueCoreMat = new THREE.MeshStandardMaterial({
-    color: 0x2563EB,
-    emissive: 0x2563EB,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.0,
     roughness: 0.1,
   });
 
   const katanaMat = new THREE.MeshStandardMaterial({
-    color: 0xFBBF24,
-    emissive: 0xF59E0B,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 2.8,
     roughness: 0.1,
   });
@@ -300,8 +303,10 @@ export function buildStarship(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const rocketGroup = new THREE.Group();
-  rocketGroup.position.set(0, 0.4, 0);
+  rocketGroup.position.set(0, 0.3, 0);
+  rocketGroup.scale.set(0.58, 0.58, 0.58);
   group.add(rocketGroup);
 
   const whiteHullMat = new THREE.MeshStandardMaterial({
@@ -319,15 +324,15 @@ export function buildStarship(
   });
 
   const cyanStripeMat = new THREE.MeshStandardMaterial({
-    color: 0x06B6D4,
-    emissive: 0x06B6D4,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 2.2,
     roughness: 0.2,
   });
 
   const engineFlameMat = new THREE.MeshStandardMaterial({
-    color: 0xF97316,
-    emissive: 0xEA580C,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.2,
     roughness: 0.1,
   });
@@ -400,8 +405,10 @@ export function buildStealthJet(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const jetGroup = new THREE.Group();
-  jetGroup.position.set(0, 1.6, 0);
+  jetGroup.position.set(0, 1.3, 0);
+  jetGroup.scale.set(0.78, 0.78, 0.78);
   group.add(jetGroup);
 
   const whiteJetMat = new THREE.MeshStandardMaterial({
@@ -426,8 +433,8 @@ export function buildStealthJet(
   });
 
   const afterburnerMat = new THREE.MeshStandardMaterial({
-    color: 0x06B6D4,
-    emissive: 0x0284C7,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.0,
     roughness: 0.1,
   });
@@ -504,6 +511,7 @@ export function buildCyberTank(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const tankGroup = new THREE.Group();
   tankGroup.position.set(0, 0.45, 0);
   group.add(tankGroup);
@@ -529,15 +537,15 @@ export function buildCyberTank(
   });
 
   const railgunGlowMat = new THREE.MeshStandardMaterial({
-    color: 0x06B6D4,
-    emissive: 0x0891B2,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.2,
     roughness: 0.1,
   });
 
   const opticSensorMat = new THREE.MeshStandardMaterial({
-    color: 0xF59E0B,
-    emissive: 0xD97706,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 2.8,
     roughness: 0.1,
   });
@@ -633,8 +641,10 @@ export function buildMothership(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const ufoGroup = new THREE.Group();
-  ufoGroup.position.set(0, 2.2, 0);
+  ufoGroup.position.set(0, 1.8, 0);
+  ufoGroup.scale.set(0.82, 0.82, 0.82);
   group.add(ufoGroup);
 
   const whiteSaucerMat = new THREE.MeshStandardMaterial({
@@ -651,8 +661,8 @@ export function buildMothership(
   });
 
   const tractorMat = new THREE.MeshStandardMaterial({
-    color: 0xA78BFA,
-    emissive: 0x7C3AED,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 2.8,
     transparent: true,
     opacity: 0.65,
@@ -693,8 +703,10 @@ export function buildGunship(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const chopperGroup = new THREE.Group();
-  chopperGroup.position.set(0, 1.7, 0);
+  chopperGroup.position.set(0, 1.4, 0);
+  chopperGroup.scale.set(0.8, 0.8, 0.8);
   group.add(chopperGroup);
 
   const whiteMat = new THREE.MeshStandardMaterial({
@@ -711,8 +723,8 @@ export function buildGunship(
   });
 
   const amberGlowMat = new THREE.MeshStandardMaterial({
-    color: 0xF59E0B,
-    emissive: 0xD97706,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 2.5,
     roughness: 0.1,
   });
@@ -769,8 +781,10 @@ export function buildCyberKatana(
   _season: SeasonTheme,
   _customColorHex?: string
 ): FigureAnimData {
+  const activeAccent = _customColorHex || _season.palette.accent;
   const bladeGroup = new THREE.Group();
   bladeGroup.position.set(0, 0, 0);
+  bladeGroup.scale.set(0.65, 0.65, 0.65);
   group.add(bladeGroup);
 
   const stonePlinthMat = new THREE.MeshStandardMaterial({
@@ -787,8 +801,8 @@ export function buildCyberKatana(
   });
 
   const crimsonPlasmaMat = new THREE.MeshStandardMaterial({
-    color: 0xF43F5E,
-    emissive: 0xE11D48,
+    color: activeAccent,
+    emissive: activeAccent,
     emissiveIntensity: 3.2,
     roughness: 0.1,
   });
