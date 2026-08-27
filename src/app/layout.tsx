@@ -85,8 +85,27 @@ const webAppSchema = {
   name: 'qrty',
   alternateName: ['qwerty qr', 'qrty generator', '3D QR Generator', 'qrty.kukaass.app'],
   url: SITE_URL,
+  isPartOf: {
+    '@type': 'WebSite',
+    '@id': 'https://kukaass.app/#website',
+    name: 'Kukaass',
+    url: 'https://kukaass.app',
+  },
+  author: {
+    '@type': 'Person',
+    '@id': 'https://kukaass.app/#person',
+    name: 'Chester Luke A. Maligaso',
+    alternateName: ['Kukaass'],
+    url: 'https://kukaass.app',
+  },
+  creator: {
+    '@type': 'Person',
+    '@id': 'https://kukaass.app/#person',
+    name: 'Chester Luke A. Maligaso',
+    url: 'https://kukaass.app',
+  },
   description:
-    'High-precision 3D QR code generator and interactive WebGL diorama studio with Level H error correction.',
+    'Free high-precision 3D QR code generator. Transform links into interactive 3D WebGL dioramas and high-contrast scannable QR codes with Level H error correction. Built under the Kukaass ecosystem.',
   applicationCategory: 'DesignApplication, UtilityApplication',
   operatingSystem: 'All',
   offers: {
@@ -100,6 +119,25 @@ const webAppSchema = {
     'Mil-Spec Level H (30%) Error Correction Redundancy',
     '8 Masculine Designer Centerpieces (Hypercar, Mecha, Starship, Stealth Jet, Cyber Tank, etc.)',
     'High-Resolution 4K PNG & SVG Export',
+  ],
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Kukaass',
+      item: 'https://kukaass.app',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'qrty',
+      item: SITE_URL,
+    },
   ],
 };
 
@@ -120,6 +158,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
       </head>
       <body className="antialiased bg-[#f8f9fa] text-zinc-900 selection:bg-zinc-900 selection:text-white min-h-screen w-full font-sans">
