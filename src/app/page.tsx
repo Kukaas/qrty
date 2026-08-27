@@ -89,8 +89,8 @@ export default function LandingPage() {
       />
       {/* Top Navbar */}
       <nav className="w-full border-b border-zinc-200/80 bg-white/80 backdrop-blur-xl sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Logo badge="v1.0.0" size={32} />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Logo badge="v1.0.5" size={32} />
 
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
             <a href="#specs" className="hover:text-zinc-900 transition-colors">Specifications</a>
@@ -100,7 +100,7 @@ export default function LandingPage() {
 
           <Link
             href="/create"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white font-semibold text-xs sm:text-sm tracking-tight transition-all hover:scale-105 active:scale-95 shadow-sm"
+            className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl bg-zinc-900 hover:bg-black text-white font-semibold text-xs sm:text-sm tracking-tight transition-all hover:scale-105 active:scale-95 shadow-sm"
           >
             <span>Launch Studio</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -109,21 +109,22 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-20 px-6 max-w-7xl mx-auto flex flex-col items-center text-center gap-8">
+      <section className="relative pt-10 sm:pt-16 pb-14 sm:pb-20 px-4 sm:px-6 max-w-7xl mx-auto flex flex-col items-center text-center gap-6 sm:gap-8">
         {/* Top Spec Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 shadow-xs text-xs font-mono font-semibold text-zinc-700">
-          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-          <span>MIL-SPEC LEVEL H REDUNDANCY (30%) • THREE.JS GPU ENGINE</span>
+        <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 shadow-xs text-[11px] sm:text-xs font-mono font-semibold text-zinc-700 max-w-full">
+          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse shrink-0" />
+          <span className="hidden sm:inline">MIL-SPEC LEVEL H REDUNDANCY (30%) • THREE.JS GPU ENGINE</span>
+          <span className="inline sm:hidden">LEVEL H (30% REDUNDANCY) • WEBGL 2.0</span>
         </div>
 
         {/* Hero Title */}
-        <div className="flex flex-col items-center gap-3">
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-zinc-900 uppercase leading-[1.08] max-w-4xl">
-            ENGINEERED <span className="underline decoration-zinc-900 decoration-4 underline-offset-8">3D QR CODES</span>.
+        <div className="flex flex-col items-center gap-2 sm:gap-3">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-zinc-900 uppercase leading-[1.12] sm:leading-[1.08] max-w-4xl px-1">
+            ENGINEERED <span className="underline decoration-zinc-900 decoration-3 sm:decoration-4 underline-offset-4 sm:underline-offset-8">3D QR CODES</span>.
             <br />
             BUILT FOR PRECISION.
           </h1>
-          <p className="text-base sm:text-lg text-zinc-600 max-w-2xl font-normal leading-relaxed pt-3">
+          <p className="text-sm sm:text-lg text-zinc-600 max-w-2xl font-normal leading-relaxed pt-2 sm:pt-3 px-2">
             Transform raw links into interactive 3D tactical dioramas. Procedural black pine and cyber bonsai architecture, zero perspective distortion, and instant camera lock-on.
           </p>
         </div>
@@ -133,7 +134,7 @@ export default function LandingPage() {
       </section>
 
       {/* Engineering Specs Grid */}
-      <section id="specs" className="py-20 px-6 border-t border-zinc-200 bg-white">
+      <section id="specs" className="py-14 sm:py-20 px-4 sm:px-6 border-t border-zinc-200 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col gap-12">
           <div className="flex flex-col items-center text-center gap-3">
             <span className="text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase">
@@ -176,22 +177,22 @@ export default function LandingPage() {
       </section>
 
       {/* Profiles Showcase Section */}
-      <section id="themes" className="py-20 px-6 border-t border-zinc-200 bg-[#f8f9fa]">
-        <div className="max-w-7xl mx-auto flex flex-col gap-12">
-          <div className="flex flex-col items-center text-center gap-3">
+      <section id="themes" className="py-14 sm:py-20 px-4 sm:px-6 border-t border-zinc-200 bg-[#f8f9fa]">
+        <div className="max-w-7xl mx-auto flex flex-col gap-10 sm:gap-12">
+          <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
             <span className="text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase">
               TACTICAL PROFILES
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-900">
               Precision-Crafted Themes
             </h2>
-            <p className="text-sm text-zinc-500 max-w-lg">
+            <p className="text-xs sm:text-sm text-zinc-500 max-w-lg px-2">
               Four iconic masculine 3D centerpieces: Hypercar, Mecha Ronin, Starship, and Stealth Jet.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
               <div className="text-3xl">🏎️</div>
               <h4 className="text-base font-bold text-zinc-900">Hypercar</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
@@ -199,7 +200,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
               <div className="text-3xl">🤖</div>
               <h4 className="text-base font-bold text-zinc-900">Mecha Ronin</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
@@ -207,7 +208,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
               <div className="text-3xl">🚀</div>
               <h4 className="text-base font-bold text-zinc-900">Starship</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
@@ -215,7 +216,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 flex flex-col gap-3 shadow-xs">
               <div className="text-3xl">✈️</div>
               <h4 className="text-base font-bold text-zinc-900">Stealth Jet</h4>
               <p className="text-xs text-zinc-600 leading-relaxed">
@@ -227,16 +228,16 @@ export default function LandingPage() {
       </section>
 
       {/* SEO FAQ Section with Schema.org FAQPage */}
-      <section id="faq" className="py-20 px-6 border-t border-zinc-200 bg-[#f8f9fa]">
-        <div className="max-w-4xl mx-auto flex flex-col gap-10">
-          <div className="flex flex-col items-center text-center gap-3">
+      <section id="faq" className="py-14 sm:py-20 px-4 sm:px-6 border-t border-zinc-200 bg-[#f8f9fa]">
+        <div className="max-w-4xl mx-auto flex flex-col gap-8 sm:gap-10">
+          <div className="flex flex-col items-center text-center gap-2 sm:gap-3">
             <span className="text-xs font-mono font-bold tracking-widest text-zinc-500 uppercase">
               SEARCH & COMPATIBILITY FAQ
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900">
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-zinc-900">
               Frequently Asked Questions About qrty
             </h2>
-            <p className="text-sm text-zinc-500 max-w-lg">
+            <p className="text-xs sm:text-sm text-zinc-500 max-w-lg px-2">
               Everything you need to know about generating scannable 3D QR code dioramas.
             </p>
           </div>
@@ -282,8 +283,8 @@ export default function LandingPage() {
       </section>
 
       {/* Bottom CTA Banner */}
-      <section className="py-20 px-6 border-t border-zinc-200 bg-white">
-        <div className="max-w-4xl mx-auto rounded-3xl p-8 sm:p-12 bg-zinc-50 border border-zinc-200 text-center flex flex-col items-center gap-6 shadow-sm">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 border-t border-zinc-200 bg-white">
+        <div className="max-w-4xl mx-auto rounded-2xl sm:rounded-3xl p-6 sm:p-12 bg-zinc-50 border border-zinc-200 text-center flex flex-col items-center gap-5 sm:gap-6 shadow-sm">
           <div className="w-12 h-12 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-900 shadow-xs">
             <QrCode className="w-6 h-6" />
           </div>
@@ -291,13 +292,13 @@ export default function LandingPage() {
             <h2 className="text-2xl sm:text-4xl font-bold text-zinc-900 tracking-tight">
               Ready to deploy your 3D QR diorama?
             </h2>
-            <p className="text-sm text-zinc-600 max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-zinc-600 max-w-md mx-auto">
               Zero accounts required. Input your link, customize your tactical profile, and export 4K prints or 3D wallpapers in seconds.
             </p>
           </div>
           <Link
             href="/create"
-            className="flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-zinc-900 hover:bg-black text-white font-semibold text-sm sm:text-base tracking-tight transition-all hover:scale-105 active:scale-95 shadow-md"
+            className="flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-2xl bg-zinc-900 hover:bg-black text-white font-semibold text-xs sm:text-base tracking-tight transition-all hover:scale-105 active:scale-95 shadow-md w-full sm:w-auto"
           >
             <span>Launch Generator Studio</span>
             <ArrowRight className="w-4 h-4" />
@@ -306,22 +307,22 @@ export default function LandingPage() {
       </section>
 
       {/* Comprehensive Architectural Footer with Creator Info & Suggestions Contact */}
-      <footer className="w-full border-t border-zinc-200 bg-white text-zinc-900 pt-16 pb-12 px-6 font-sans">
-        <div className="max-w-7xl mx-auto flex flex-col gap-12">
+      <footer className="w-full border-t border-zinc-200 bg-white text-zinc-900 pt-12 sm:pt-16 pb-8 sm:pb-12 px-4 sm:px-6 font-sans">
+        <div className="max-w-7xl mx-auto flex flex-col gap-10 sm:gap-12">
           {/* Top Row: Suggestion Banner / Contact Card */}
-          <div className="rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xs">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-zinc-900 text-white flex items-center justify-center shrink-0 shadow-sm">
-                <MessageSquare className="w-6 h-6" />
+          <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-8 bg-zinc-50 border border-zinc-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6 shadow-xs">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-zinc-900 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-base sm:text-lg font-bold text-zinc-900">
                     Have suggestions or custom feature ideas?
                   </h3>
-                  <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
-                    Open to Feedback
+                    Feedback
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-zinc-600 max-w-xl">
@@ -334,7 +335,7 @@ export default function LandingPage() {
               href="https://kukaass.app/#contact"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs sm:text-sm font-semibold tracking-tight transition-all hover:scale-105 active:scale-95 shadow-sm shrink-0 font-mono"
+              className="flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs sm:text-sm font-semibold tracking-tight transition-all hover:scale-105 active:scale-95 shadow-sm shrink-0 font-mono w-full sm:w-auto"
             >
               <span>Submit Suggestion</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -345,7 +346,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4">
             {/* Col 1: Brand & Creator Info */}
             <div className="flex flex-col gap-3 md:col-span-2">
-              <Logo badge="v1.0.0" size={28} />
+              <Logo badge="v1.0.5" size={28} />
               <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed max-w-md">
                 Engineered by <strong className="text-zinc-900">Chester Luke Maligaso</strong> (<a href="https://kukaass.app" target="_blank" rel="noopener noreferrer" className="underline hover:text-black font-semibold">kukaass.app</a>). A high-precision 3D QR diorama generator combining hardware WebGL rendering with Mil-Spec error correction.
               </p>

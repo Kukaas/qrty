@@ -129,23 +129,23 @@ export default function ControlPanel({
   const formattedUrl = formatRedirectUrl(url);
 
   return (
-    <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 z-20 flex justify-center px-2.5 sm:px-4 pointer-events-none pb-[max(0.5rem,env(safe-area-inset-bottom))]">
-      <div className="pointer-events-auto w-full max-w-xl bg-white/95 backdrop-blur-xl border border-zinc-200/90 shadow-xl shadow-zinc-300/40 rounded-2xl sm:rounded-3xl p-2.5 sm:p-4 flex flex-col gap-2 transition-all">
+    <div className="absolute bottom-1.5 sm:bottom-4 left-0 right-0 z-20 flex justify-center px-2 sm:px-4 pointer-events-none pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <div className="pointer-events-auto w-full max-w-xl bg-white/95 backdrop-blur-xl border border-zinc-200/90 shadow-xl shadow-zinc-300/40 rounded-2xl sm:rounded-3xl p-2 sm:p-4 flex flex-col gap-1.5 sm:gap-2 transition-all">
         {/* Row 1: URL Input & Export Button */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <div className="relative flex-1 flex items-center min-w-0">
             <input
               type="text"
               value={url}
               onChange={(e) => onChangeUrl(e.target.value)}
-              placeholder="Enter destination link (e.g. https://github.com)..."
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-900 transition-all font-mono truncate"
+              placeholder="Enter destination link (e.g. github.com)..."
+              className="w-full bg-zinc-50 border border-zinc-200 rounded-xl sm:rounded-2xl pl-2.5 pr-8 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900/10 focus:border-zinc-900 transition-all font-mono truncate"
             />
             {url && (
               <button
                 type="button"
                 onClick={handleCopy}
-                className="absolute right-2.5 p-1 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-200/60 transition-colors cursor-pointer"
+                className="absolute right-2 p-1 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-200/60 transition-colors cursor-pointer"
                 title={copied ? 'Copied!' : 'Copy link'}
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -160,7 +160,7 @@ export default function ControlPanel({
               sound.playWoodClick();
               onOpenExport();
             }}
-            className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-zinc-900 hover:bg-black text-white font-bold shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+            className="flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-zinc-900 hover:bg-black text-white font-bold shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
             title="Export / Download QR"
             aria-label="Export QR Code"
           >
@@ -170,8 +170,8 @@ export default function ControlPanel({
 
         {/* Row 2: Quick Destination Chips & View Mode Toggle */}
         <div className="flex items-center justify-between gap-1.5 text-xs text-zinc-500 font-mono">
-          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
-            <span className="font-semibold text-zinc-400 text-[10px] hidden sm:inline">TRY:</span>
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 min-w-0">
+            <span className="font-semibold text-zinc-400 text-[10px] hidden sm:inline shrink-0">TRY:</span>
             {QUICK_LINKS.map((link) => (
               <button
                 key={link.label}
@@ -180,7 +180,7 @@ export default function ControlPanel({
                   sound.playWoodClick();
                   onChangeUrl(link.url);
                 }}
-                className={`px-2 py-0.5 rounded-md border text-[10px] sm:text-[11px] font-medium transition-colors cursor-pointer shrink-0 ${
+                className={`px-1.5 sm:px-2 py-0.5 rounded-md border text-[10px] sm:text-[11px] font-medium transition-colors cursor-pointer shrink-0 ${
                   formattedUrl === link.url
                     ? 'bg-zinc-900 border-zinc-900 text-white'
                     : 'bg-zinc-100 border-zinc-200 hover:bg-zinc-200 text-zinc-600 hover:text-zinc-900'
@@ -198,7 +198,7 @@ export default function ControlPanel({
               sound.playWoodClick();
               onToggleViewMode();
             }}
-            className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 font-bold text-[10px] sm:text-xs cursor-pointer shrink-0 transition-colors"
+            className="flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 font-bold text-[10px] sm:text-xs cursor-pointer shrink-0 transition-colors"
           >
             {viewMode === '3d' ? (
               <>
@@ -221,7 +221,7 @@ export default function ControlPanel({
             type="button"
             onClick={() => scrollPresets('left')}
             disabled={!canScrollLeft}
-            className={`p-1.5 rounded-lg border transition-all shrink-0 ${
+            className={`p-1 sm:p-1.5 rounded-lg border transition-all shrink-0 ${
               canScrollLeft
                 ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 cursor-pointer shadow-2xs'
                 : 'bg-zinc-50 border-zinc-150 text-zinc-300 cursor-not-allowed opacity-40'
@@ -254,13 +254,13 @@ export default function ControlPanel({
                     sound.playSeasonChime(idx);
                     onSelectSeason(seasonKey);
                   }}
-                  className={`flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl text-xs font-mono font-medium transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap ${
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-xl text-[11px] sm:text-xs font-mono font-medium transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap ${
                     isSelected
                       ? 'bg-zinc-900 text-white font-bold shadow-xs scale-102 ring-2 ring-zinc-900/20'
                       : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-700 border border-zinc-200/80 hover:text-zinc-900'
                   }`}
                 >
-                  <span className="text-sm sm:text-base">{s.icon}</span>
+                  <span className="text-xs sm:text-base">{s.icon}</span>
                   <span>{s.name}</span>
                 </button>
               );
@@ -272,7 +272,7 @@ export default function ControlPanel({
             type="button"
             onClick={() => scrollPresets('right')}
             disabled={!canScrollRight}
-            className={`p-1.5 rounded-lg border transition-all shrink-0 ${
+            className={`p-1 sm:p-1.5 rounded-lg border transition-all shrink-0 ${
               canScrollRight
                 ? 'bg-zinc-100 hover:bg-zinc-200 border-zinc-200 text-zinc-800 cursor-pointer shadow-2xs'
                 : 'bg-zinc-50 border-zinc-150 text-zinc-300 cursor-not-allowed opacity-40'
@@ -299,7 +299,7 @@ export default function ControlPanel({
         </div>
 
         {/* Row 4: Color Palette Dots */}
-        <div className="flex items-center justify-center gap-2 sm:gap-2.5 pt-0.5">
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 pt-0.5">
           {COLOR_OPTIONS.map((color) => {
             const isSelected = selectedColorId === color.id;
 
@@ -311,7 +311,7 @@ export default function ControlPanel({
                   sound.playWoodClick();
                   onSelectColor(color);
                 }}
-                className={`relative w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full transition-all duration-200 hover:scale-115 active:scale-95 cursor-pointer ${
+                className={`relative w-4 h-4 sm:w-5 sm:h-5 rounded-full transition-all duration-200 hover:scale-115 active:scale-95 cursor-pointer ${
                   isSelected ? 'ring-2 ring-offset-2 ring-zinc-900 scale-110 shadow-xs' : 'opacity-80 hover:opacity-100'
                 }`}
                 style={{ backgroundColor: color.hex }}
