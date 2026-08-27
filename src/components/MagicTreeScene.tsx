@@ -12,6 +12,7 @@ interface MagicTreeSceneProps {
   season: SeasonTheme;
   customColorHex?: string;
   customFoliageColors?: string[];
+  customFinderColor?: string;
   viewMode: ViewMode;
   onToggleViewMode: () => void;
   onRegisterCapture: (captureFn: () => string) => void;
@@ -22,6 +23,7 @@ export default function MagicTreeScene({
   season,
   customColorHex,
   customFoliageColors,
+  customFinderColor,
   viewMode,
   onToggleViewMode,
   onRegisterCapture,
@@ -72,17 +74,6 @@ export default function MagicTreeScene({
   const mouseRef = useRef(new THREE.Vector2());
   const pointerDownPosRef = useRef({ x: 0, y: 0 });
 
-  // Fallback screenshot function
-  const captureCanvas = useCallback((): string => {
-    if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return '';
-    rendererRef.current.render(sceneRef.current, cameraRef.current);
-    return rendererRef.current.domElement.toDataURL('image/png');
-  }, []);
-
-  useEffect(() => {
-    onRegisterCapture(captureCanvas);
-  }, [captureCanvas, onRegisterCapture]);
-
   /**
    * Updates tile positions, heights, and colors based on viewMode.
    * In QR mode: perfectly flat, zero shadow obstruction, high-contrast.
@@ -102,7 +93,7 @@ export default function MagicTreeScene({
       const lightColorHex = isQR ? '#FFFFFF' : season.palette.groundLight;
       // In QR mode, display the preset's vibrant signature color on pure white for 100% camera readability
       const darkColorHex = customColorHex || season.palette.groundDark;
-      const finderDarkHex = customColorHex || season.palette.hedges[0] || season.palette.groundDark;
+      const finderDarkHex = customFinderColor || season.palette.finderColor || season.palette.hedges[0] || season.palette.groundDark;
 
       let tileIndex = 0;
       for (let r = 0; r < size; r++) {
@@ -130,9 +121,10 @@ export default function MagicTreeScene({
             // 3D Isometric diorama styling
             dummy.position.set(x, 0.06, z);
             if (isF && isDark) {
-              dummy.scale.set(1.0, 3.2, 1.0);
-              dummy.position.y = 0.19;
-              const hc = season.palette.hedges[(r + c) % season.palette.hedges.length];
+              // Level, solid finder patterns for clean scan detection without shadow obstruction
+              dummy.scale.set(1.0, 1.3, 1.0);
+              dummy.position.y = 0.08;
+              const hc = finderDarkHex;
               color.set(hc);
             } else if (isDark) {
               dummy.scale.set(0.96, 1.3, 0.96);
@@ -155,8 +147,98 @@ export default function MagicTreeScene({
       tilesMesh.instanceMatrix.needsUpdate = true;
       if (tilesMesh.instanceColor) tilesMesh.instanceColor.needsUpdate = true;
     },
-    [qrData, season, customColorHex]
+    [qrData, season, customColorHex, customFinderColor]
   );
+
+  /**
+   * High-resolution 1:1 square capture rendered from the preferred sided isometric angle.
+   * Sided perspective showcases the figure's 3D silhouette, wings, and depth while high
+   * elevation (+Y: 32) and calibrated figure scale guarantee the back finder box is never occluded.
+   */
+  const capture3DDefaultAngle = useCallback((): string => {
+    if (!rendererRef.current || !sceneRef.current) return '';
+    const scene = sceneRef.current;
+    const renderer = rendererRef.current;
+
+    // Save previous renderer state
+    const originalSize = new THREE.Vector2();
+    renderer.getSize(originalSize);
+    const prevPixelRatio = renderer.getPixelRatio();
+
+    // 1:1 square camera framed from the preferred sided isometric angle
+    const captureCam = new THREE.PerspectiveCamera(36, 1.0, 0.1, 1000);
+    captureCam.position.set(19, 32, 21);
+    captureCam.up.set(0, 1, 0);
+    captureCam.lookAt(0, 0.2, 0);
+
+    // Save previous tree & lighting state
+    const prevTreeScale = treeScaleRef.current;
+    const prevTreeVis = treeGroupRef.current ? treeGroupRef.current.visible : true;
+    if (treeGroupRef.current) {
+      // Scaled to 0.68 for capture so high figures (mecha, rocket, blade) never block back finder boxes
+      const exportFigureScale = 0.68;
+      treeGroupRef.current.scale.set(exportFigureScale, exportFigureScale, exportFigureScale);
+      treeGroupRef.current.visible = true;
+    }
+
+    const sun = sunLightRef.current;
+    const amb = ambientLightRef.current;
+    const prevSunCast = sun ? sun.castShadow : true;
+    const prevSunInt = sun ? sun.intensity : 1.8;
+    const prevAmbInt = amb ? amb.intensity : 1.2;
+    const prevPartVis = particlesMeshRef.current ? particlesMeshRef.current.visible : true;
+
+    if (sun) {
+      sun.castShadow = true;
+      sun.intensity = 1.8;
+    }
+    if (amb) {
+      amb.intensity = 1.2;
+    }
+    if (particlesMeshRef.current) {
+      particlesMeshRef.current.visible = true;
+    }
+
+    // Temporarily apply 3D tile layout
+    updateTileLayout(false);
+
+    // Render at clean 1024x1024 square resolution
+    const captureSize = 1024;
+    renderer.setPixelRatio(1);
+    renderer.setSize(captureSize, captureSize, false);
+    renderer.render(scene, captureCam);
+
+    const dataUrl = renderer.domElement.toDataURL('image/png');
+
+    // Restore renderer, lighting, tree, and layout states
+    renderer.setPixelRatio(prevPixelRatio);
+    renderer.setSize(originalSize.x, originalSize.y, false);
+
+    if (treeGroupRef.current) {
+      const s = Math.max(0.0001, prevTreeScale);
+      treeGroupRef.current.scale.set(s, s, s);
+      treeGroupRef.current.visible = prevTreeVis;
+    }
+    if (sun) {
+      sun.castShadow = prevSunCast;
+      sun.intensity = prevSunInt;
+    }
+    if (amb) {
+      amb.intensity = prevAmbInt;
+    }
+    if (particlesMeshRef.current) {
+      particlesMeshRef.current.visible = prevPartVis;
+    }
+    if (viewMode === 'qr') {
+      updateTileLayout(true);
+    }
+
+    return dataUrl;
+  }, [updateTileLayout, viewMode, season, customColorHex, customFinderColor]);
+
+  useEffect(() => {
+    onRegisterCapture(capture3DDefaultAngle);
+  }, [capture3DDefaultAngle, onRegisterCapture]);
 
   // Set up Three.js scene
   useEffect(() => {
@@ -172,20 +254,25 @@ export default function MagicTreeScene({
     const width = container.clientWidth || window.innerWidth || 800;
     const height = container.clientHeight || window.innerHeight || 600;
     const aspect = height > 0 ? width / height : 1.5;
+    const isMobile = aspect < 1.0;
     const initialFov =
       viewMode === '3d'
-        ? aspect < 1 ? Math.min(56, 38 / aspect) : 38
-        : aspect < 1 ? Math.min(54, 34 / aspect) : 34;
+        ? isMobile ? Math.min(54, 38 / aspect) : 38
+        : isMobile ? Math.min(52, 33 / aspect) : 34;
     const camera = new THREE.PerspectiveCamera(initialFov, aspect, 0.1, 1000);
 
+    const initialLookY = viewMode === '3d' && isMobile ? -1.5 : 0;
+    const initialLookZ = viewMode === 'qr' && isMobile ? 2.4 : 0;
+
     if (viewMode === '3d') {
-      camera.position.set(24, 28, 24);
+      camera.position.set(20, isMobile ? 32 : 30, 22);
       camera.up.set(0, 1, 0);
+      camera.lookAt(0, initialLookY, 0);
     } else {
-      camera.position.set(0, 46, 0.0001);
+      camera.position.set(0, 46, initialLookZ + 0.0001);
       camera.up.set(0, 0, -1);
+      camera.lookAt(0, 0, initialLookZ);
     }
-    camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
     // 3. Renderer
@@ -197,7 +284,7 @@ export default function MagicTreeScene({
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
 
@@ -215,7 +302,7 @@ export default function MagicTreeScene({
     controls.maxPolarAngle = Math.PI / 2.08;
     controls.minDistance = 10;
     controls.maxDistance = 65;
-    controls.target.set(0, 0, 0);
+    controls.target.set(0, initialLookY, initialLookZ);
     controls.enabled = viewMode === '3d';
     controlsRef.current = controls;
 
@@ -267,11 +354,15 @@ export default function MagicTreeScene({
 
     // 7. Animation Loop
     let animationFrameId: number;
-    let clock = new THREE.Clock();
+    let lastTime = performance.now();
+    let elapsedTime = 0;
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
+      const now = performance.now();
+      const delta = Math.min(0.1, (now - lastTime) / 1000);
+      lastTime = now;
+      elapsedTime += delta;
 
       // Camera animation
       if (isAnimatingRef.current) {
@@ -442,7 +533,14 @@ export default function MagicTreeScene({
       if (!container || !renderer || !camera) return;
       const w = container.clientWidth || window.innerWidth || 800;
       const h = container.clientHeight || window.innerHeight || 600;
-      camera.aspect = w / h;
+      const newAspect = h > 0 ? w / h : 1.5;
+      camera.aspect = newAspect;
+      if (!isAnimatingRef.current) {
+        camera.fov =
+          viewMode === '3d'
+            ? newAspect < 1 ? Math.min(54, 38 / newAspect) : 38
+            : newAspect < 1 ? Math.min(52, 33 / newAspect) : 34;
+      }
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     };
@@ -577,7 +675,7 @@ export default function MagicTreeScene({
 
     dioramaGroup.add(treeGroup);
 
-    const initScale = viewMode === '3d' ? 1.0 : 0.0001;
+    const initScale = viewMode === '3d' ? 0.85 : 0.0001;
     treeScaleRef.current = initScale;
     targetTreeScaleRef.current = initScale;
     treeGroup.scale.set(initScale, initScale, initScale);
@@ -650,7 +748,7 @@ export default function MagicTreeScene({
       rotSpeed: pRotSpeeds,
       vel: pVelocities,
     };
-  }, [qrData, season, customColorHex, customFoliageColors, updateTileLayout, viewMode]);
+  }, [qrData, season, customColorHex, customFoliageColors, customFinderColor, updateTileLayout, viewMode]);
 
   // Handle ViewMode Switch
   useEffect(() => {
@@ -671,14 +769,17 @@ export default function MagicTreeScene({
     updateTileLayout(viewMode === 'qr');
 
     const aspect = camera.aspect || 1.5;
+    const isMobile = aspect < 1.0;
 
     if (viewMode === '3d') {
-      // Transition to 3D Isometric View (balanced framing with breathing room)
-      targetCamPosRef.current.set(24, 28, 24);
-      targetCamLookRef.current.set(0, 0, 0);
+      // Transition to 3D Sided Isometric View (balanced framing with breathing room)
+      // On mobile portrait, raise diorama framing so it sits comfortably above the bottom control panel
+      const lookY = isMobile ? -1.5 : 0;
+      targetCamPosRef.current.set(20, isMobile ? 32 : 30, 22);
+      targetCamLookRef.current.set(0, lookY, 0);
       targetCamUpRef.current.set(0, 1, 0);
-      targetCamFovRef.current = aspect < 1 ? Math.min(56, 38 / aspect) : 38;
-      targetTreeScaleRef.current = 1.0;
+      targetCamFovRef.current = isMobile ? Math.min(54, 38 / aspect) : 38;
+      targetTreeScaleRef.current = 0.85;
       controls.enabled = false;
 
       if (sunLight) {
@@ -693,10 +794,12 @@ export default function MagicTreeScene({
       }
     } else {
       // Transition to Flat Scannable QR Code View (centered, comfortable margin)
-      targetCamPosRef.current.set(0, 46, 0.0001);
-      targetCamLookRef.current.set(0, 0, 0);
+      // In top-down view (camera.up = (0, 0, -1)), +Z corresponds to shifting the rendered object UP on the screen
+      const qrOffsetZ = isMobile ? 2.4 : 0;
+      targetCamPosRef.current.set(0, 46, qrOffsetZ + 0.0001);
+      targetCamLookRef.current.set(0, 0, qrOffsetZ);
       targetCamUpRef.current.set(0, 0, -1);
-      targetCamFovRef.current = aspect < 1 ? Math.min(54, 34 / aspect) : 34;
+      targetCamFovRef.current = isMobile ? Math.min(52, 33 / aspect) : 34;
       targetTreeScaleRef.current = 0.0001;
       controls.enabled = false;
 

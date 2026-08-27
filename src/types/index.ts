@@ -15,6 +15,7 @@ export interface SeasonTheme {
     groundDark: string;
     petals: string[];
     background: string;
+    finderColor?: string;
   };
 }
 
@@ -24,6 +25,7 @@ export interface ColorOption {
   hex: string;
   foliageColors: string[];
   moduleColor: string;
+  finderColor: string;
 }
 
 export interface QRMatrixData {

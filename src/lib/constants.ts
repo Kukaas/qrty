@@ -15,6 +15,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#0284C7',
       petals: ['#38BDF8', '#0EA5E9', '#7DD3FC', '#0284C7'],
       background: '#F0F4F8',
+      finderColor: '#041C2C',
     },
   },
   ronin: {
@@ -31,6 +32,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#15803D',
       petals: ['#15803D', '#22C55E', '#166534', '#4ADE80'],
       background: '#F3F4F6',
+      finderColor: '#03200E',
     },
   },
   ember: {
@@ -47,6 +49,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#DC2626',
       petals: ['#F97316', '#EF4444', '#FBBF24', '#EA580C'],
       background: '#FDF6F0',
+      finderColor: '#280B02',
     },
   },
   stealth: {
@@ -63,6 +66,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#18181B',
       petals: ['#71717A', '#A1A1AA', '#52525B', '#3F3F46'],
       background: '#F4F4F6',
+      finderColor: '#09090B',
     },
   },
   tank: {
@@ -79,6 +83,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#0891B2',
       petals: ['#22D3EE', '#06B6D4', '#67E8F9', '#38BDF8'],
       background: '#F0FDFA',
+      finderColor: '#111F03',
     },
   },
   tron: {
@@ -95,6 +100,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#0891B2',
       petals: ['#22D3EE', '#06B6D4', '#67E8F9', '#38BDF8'],
       background: '#F0FDFA',
+      finderColor: '#04222B',
     },
   },
   ufo: {
@@ -111,6 +117,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#7C3AED',
       petals: ['#A78BFA', '#8B5CF6', '#DDD6FE', '#C4B5FD'],
       background: '#FAF5FF',
+      finderColor: '#1B0638',
     },
   },
   chopper: {
@@ -127,6 +134,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#D97706',
       petals: ['#F59E0B', '#FBBF24', '#FCD34D', '#D97706'],
       background: '#FFFBEB',
+      finderColor: '#261502',
     },
   },
   blade: {
@@ -143,6 +151,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#E11D48',
       petals: ['#F43F5E', '#FB7185', '#FDA4AF', '#E11D48'],
       background: '#FFF1F2',
+      finderColor: '#2D0408',
     },
   },
   // Fallbacks for backwards compatibility
@@ -160,6 +169,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#15803D',
       petals: ['#15803D'],
       background: '#F3F4F6',
+      finderColor: '#03200E',
     },
   },
   summer: {
@@ -176,6 +186,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#0284C7',
       petals: ['#38BDF8'],
       background: '#F0F4F8',
+      finderColor: '#041C2C',
     },
   },
   autumn: {
@@ -192,6 +203,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#DC2626',
       petals: ['#F97316'],
       background: '#FDF6F0',
+      finderColor: '#280B02',
     },
   },
   winter: {
@@ -208,6 +220,7 @@ export const SEASONS: Record<Season, SeasonTheme> = {
       groundDark: '#18181B',
       petals: ['#71717A'],
       background: '#F4F4F6',
+      finderColor: '#09090B',
     },
   },
 };
@@ -219,6 +232,7 @@ export const COLOR_OPTIONS: ColorOption[] = [
     hex: '#0284C7',
     foliageColors: ['#075985', '#0369A1', '#0284C7', '#0EA5E9', '#38BDF8'],
     moduleColor: '#0284C7',
+    finderColor: '#041C2C',
   },
   {
     id: 'emerald',
@@ -226,6 +240,7 @@ export const COLOR_OPTIONS: ColorOption[] = [
     hex: '#15803D',
     foliageColors: ['#14532D', '#166534', '#15803D', '#22C55E', '#4ADE80'],
     moduleColor: '#15803D',
+    finderColor: '#03200E',
   },
   {
     id: 'crimson',
@@ -233,6 +248,7 @@ export const COLOR_OPTIONS: ColorOption[] = [
     hex: '#DC2626',
     foliageColors: ['#991B1B', '#B91C1C', '#DC2626', '#EF4444', '#F87171'],
     moduleColor: '#DC2626',
+    finderColor: '#2D0404',
   },
   {
     id: 'amber',
@@ -240,6 +256,7 @@ export const COLOR_OPTIONS: ColorOption[] = [
     hex: '#EA580C',
     foliageColors: ['#9A3412', '#C2410C', '#EA580C', '#F97316', '#FB923C'],
     moduleColor: '#EA580C',
+    finderColor: '#280B02',
   },
   {
     id: 'violet',
@@ -247,6 +264,7 @@ export const COLOR_OPTIONS: ColorOption[] = [
     hex: '#7C3AED',
     foliageColors: ['#5B21B6', '#6D28D9', '#7C3AED', '#8B5CF6', '#A78BFA'],
     moduleColor: '#7C3AED',
+    finderColor: '#1B0638',
   },
   {
     id: 'stealth',
@@ -254,7 +272,93 @@ export const COLOR_OPTIONS: ColorOption[] = [
     hex: '#18181B',
     foliageColors: ['#18181B', '#27272A', '#3F3F46', '#52525B', '#71717A'],
     moduleColor: '#18181B',
+    finderColor: '#09090B',
   },
 ];
+
+
+export function ensureDarkContrastColor(hex: string): string {
+  let color = hex.replace(/^#/, '');
+  if (color.length === 3) {
+    color = color.split('').map(c => c + c).join('');
+  }
+  const r = parseInt(color.substring(0, 2), 16) / 255;
+  const g = parseInt(color.substring(2, 4), 16) / 255;
+  const b = parseInt(color.substring(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0, s = 0, l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+
+  l = Math.max(0.08, Math.min(l, 0.11));
+
+  const hue2rgb = (p: number, q: number, t: number) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+
+  let r2, g2, b2;
+  if (s === 0) {
+    r2 = g2 = b2 = l;
+  } else {
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r2 = hue2rgb(p, q, h + 1 / 3);
+    g2 = hue2rgb(p, q, h);
+    b2 = hue2rgb(p, q, h - 1 / 3);
+  }
+
+  const toHex = (x: number) => {
+    const hexStr = Math.round(x * 255).toString(16);
+    return hexStr.length === 1 ? '0' + hexStr : hexStr;
+  };
+
+  return "#" + toHex(r2) + toHex(g2) + toHex(b2);
+}
+
+export function getComplimentaryFinderColor(
+  colorHex?: string,
+  seasonFinderColor?: string,
+  seasonHedge?: string
+): string {
+  if (colorHex) {
+    const normalized = colorHex.toLowerCase().trim();
+    const matched = COLOR_OPTIONS.find(
+      (opt) =>
+        opt.hex.toLowerCase() === normalized ||
+        opt.id.toLowerCase() === normalized ||
+        opt.moduleColor.toLowerCase() === normalized
+    );
+    if (matched) {
+      return ensureDarkContrastColor(matched.finderColor);
+    }
+    return ensureDarkContrastColor(colorHex);
+  }
+
+  if (seasonFinderColor) {
+    return ensureDarkContrastColor(seasonFinderColor);
+  }
+
+  if (seasonHedge) {
+    return ensureDarkContrastColor(seasonHedge);
+  }
+
+  return ensureDarkContrastColor('#09090B');
+}
 
 export const DEFAULT_URL = 'https://github.com';

@@ -7,10 +7,11 @@ import FloatingViewToggle from '@/components/FloatingViewToggle';
 import ExportModal from '@/components/ExportModal';
 import InfoModal from '@/components/InfoModal';
 import { generateQRMatrix } from '@/lib/qr';
-import { SEASONS } from '@/lib/constants';
+import { SEASONS, getComplimentaryFinderColor } from '@/lib/constants';
 import { Season, ColorOption, ViewMode, QRMatrixData } from '@/types';
 import { sound } from '@/lib/audio';
 import MagicTreeScene from '@/components/MagicTreeScene';
+import * as THREE from 'three';
 
 interface MagicTreeClientProps {
   initialUrl: string;
@@ -99,9 +100,14 @@ export default function MagicTreeClient({
     setSelectedColor(color);
   };
 
+  const customFinderColor = useMemo(() => {
+    if (selectedColor?.finderColor) return selectedColor.finderColor;
+    return getComplimentaryFinderColor(selectedColor?.hex, currentSeason.palette.finderColor, currentSeason.palette.hedges[0]);
+  }, [selectedColor, currentSeason]);
+
   return (
     <div
-      className="relative w-full h-screen overflow-hidden transition-colors duration-500"
+      className="relative w-full h-[100dvh] min-h-[100dvh] overflow-hidden transition-colors duration-500"
       style={{ backgroundColor: currentSeason.palette.background }}
     >
       {/* Top Header with Breadcrumbs */}
@@ -120,6 +126,7 @@ export default function MagicTreeClient({
             season={currentSeason}
             customColorHex={selectedColor?.hex}
             customFoliageColors={selectedColor?.foliageColors}
+            customFinderColor={customFinderColor}
             viewMode={viewMode}
             onToggleViewMode={handleToggleViewMode}
             onRegisterCapture={handleRegisterCapture}
@@ -157,6 +164,7 @@ export default function MagicTreeClient({
         qrData={qrData}
         season={currentSeason}
         customColorHex={selectedColor?.hex}
+        customFinderColor={customFinderColor}
         onCapture3D={handleCapture3D}
       />
 

@@ -12,6 +12,7 @@ interface ExportModalProps {
   qrData: QRMatrixData;
   season: SeasonTheme;
   customColorHex?: string;
+  customFinderColor?: string;
   onCapture3D: () => string;
 }
 
@@ -21,6 +22,7 @@ export default function ExportModal({
   qrData,
   season,
   customColorHex,
+  customFinderColor,
   onCapture3D,
 }: ExportModalProps) {
   const [activeTab, setActiveTab] = useState<'qr' | '3d'>('qr');
@@ -37,7 +39,7 @@ export default function ExportModal({
       const qrPng = generateCleanQRPNG(qrData.text, {
         darkColor: customColorHex || season.palette.groundDark,
         lightColor: '#FFFFFF',
-        finderColor: season.palette.hedges[0] || '#14532D',
+        finderColor: customFinderColor || season.palette.finderColor || '#09090B',
         scale: 18,
       });
       setCleanQRUrl(qrPng);
@@ -54,7 +56,7 @@ export default function ExportModal({
         console.error('Failed to capture 3D snapshot', err);
       }
     }
-  }, [isOpen, qrData, season, customColorHex, onCapture3D]);
+  }, [isOpen, qrData, season, customColorHex, customFinderColor, onCapture3D]);
 
   if (!isOpen) return null;
 
@@ -76,13 +78,13 @@ export default function ExportModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-white border border-zinc-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg bg-white border border-zinc-200 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90dvh]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 bg-zinc-50/70">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-zinc-200 bg-zinc-50/70">
           <div className="flex items-center gap-2 font-mono">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <h2 className="text-sm font-bold text-zinc-900 tracking-tight uppercase">Export 3D QR Matrix</h2>
+            <h2 className="text-xs sm:text-sm font-bold text-zinc-900 tracking-tight uppercase">Export 3D QR Matrix</h2>
           </div>
           <button
             onClick={() => {
@@ -96,83 +98,89 @@ export default function ExportModal({
         </div>
 
         {/* Tab Toggle */}
-        <div className="flex items-center gap-2 px-6 pt-4">
+        <div className="flex items-center gap-2 px-4 sm:px-6 pt-3 sm:pt-4">
           <button
             onClick={() => setActiveTab('qr')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
               activeTab === 'qr'
                 ? 'bg-zinc-900 text-white shadow-xs'
                 : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-600'
             }`}
           >
-            <QrCode className="w-4 h-4" />
+            <QrCode className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Scannable 2D QR</span>
           </button>
           <button
             onClick={() => setActiveTab('3d')}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
               activeTab === '3d'
                 ? 'bg-zinc-900 text-white shadow-xs'
                 : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-600'
             }`}
           >
-            <ImageIcon className="w-4 h-4" />
+            <ImageIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>3D Diorama Artwork</span>
           </button>
         </div>
 
-        {/* Image Preview */}
-        <div className="px-6 py-4 flex flex-col items-center justify-center flex-1 overflow-y-auto">
-          {activeTab === 'qr' ? (
-            <div className="flex flex-col items-center gap-3">
-              <div className="relative p-3 bg-white rounded-2xl border border-zinc-200 shadow-sm max-w-[280px]">
-                {cleanQRUrl ? (
+        {/* Image Preview (Identical fixed square height for 2D and 3D) */}
+        <div className="px-4 sm:px-6 py-3 sm:py-4 flex flex-col items-center justify-center flex-1 overflow-y-auto">
+          <div className="flex flex-col items-center gap-2.5 sm:gap-3 w-full">
+            {/* Shared fixed square frame ensuring identical height */}
+            <div className="w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] aspect-square relative p-2.5 sm:p-3 bg-white rounded-2xl border border-zinc-200 shadow-sm flex items-center justify-center overflow-hidden">
+              {activeTab === 'qr' ? (
+                cleanQRUrl ? (
                   <img
                     src={cleanQRUrl}
                     alt="Scannable QR Code"
-                    className="w-full h-auto rounded-lg object-contain"
+                    className="w-full h-full object-contain rounded-lg"
                   />
                 ) : (
-                  <div className="w-64 h-64 flex items-center justify-center text-zinc-400 text-xs font-mono">
-                    Generating matrix...
+                  <div className="flex flex-col items-center justify-center text-zinc-400 text-xs font-mono gap-1">
+                    <div className="w-6 h-6 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin" />
+                    <span>Generating matrix...</span>
                   </div>
-                )}
-              </div>
-
-              {scanVerified && (
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-mono font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Verified Camera-Scannable (Level H)</span>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-3">
-              <div className="relative bg-zinc-100 rounded-2xl border border-zinc-200 shadow-sm overflow-hidden max-w-[320px]">
-                {dioramaUrl ? (
+                )
+              ) : (
+                dioramaUrl ? (
                   <img
                     src={dioramaUrl}
                     alt="3D Diorama Snapshot"
-                    className="w-full h-auto rounded-xl object-contain"
+                    className="w-full h-full object-contain rounded-xl"
                   />
                 ) : (
-                  <div className="w-72 h-72 flex items-center justify-center text-zinc-400 text-xs font-mono">
-                    Capturing 3D scene...
+                  <div className="flex flex-col items-center justify-center text-zinc-400 text-xs font-mono gap-1">
+                    <div className="w-6 h-6 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin" />
+                    <span>Capturing 3D scene...</span>
                   </div>
-                )}
-              </div>
-              <p className="text-xs font-mono text-zinc-500 text-center">
-                High-resolution hardware render of your 3D diorama
-              </p>
+                )
+              )}
             </div>
-          )}
+
+            {/* Status / Description Badge: Consistent fixed-height bar so modal never shifts */}
+            <div className="h-7 flex items-center justify-center">
+              {activeTab === 'qr' ? (
+                scanVerified && (
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] sm:text-xs font-mono font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Verified Camera-Scannable (Level H)</span>
+                  </div>
+                )
+              ) : (
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-[11px] sm:text-xs font-mono font-medium">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Sided 3D Scannable Perspective</span>
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* Current URL Label */}
-          <div className="w-full mt-3 p-2.5 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between text-xs font-mono">
-            <span className="truncate text-zinc-700 pr-2">{qrData.text}</span>
+          <div className="w-full max-w-[220px] sm:max-w-[280px] mt-2 sm:mt-2.5 p-2 sm:p-2.5 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between text-xs font-mono">
+            <span className="truncate text-zinc-700 pr-2 text-[11px] sm:text-xs">{qrData.text}</span>
             <button
               onClick={handleCopyLink}
-              className="flex items-center gap-1 text-zinc-900 hover:text-black font-bold shrink-0 cursor-pointer"
+              className="flex items-center gap-1 text-zinc-900 hover:text-black font-bold shrink-0 cursor-pointer text-xs"
             >
               {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedLink ? 'Copied' : 'Copy'}</span>
@@ -181,12 +189,12 @@ export default function ExportModal({
         </div>
 
         {/* Modal Actions */}
-        <div className="px-6 py-4 border-t border-zinc-200 flex items-center gap-3 bg-zinc-50/80">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-zinc-200 flex items-center gap-3 bg-zinc-50/80">
           {activeTab === 'qr' ? (
             <button
               onClick={() => downloadImage(cleanQRUrl, 'qrty-scannable-qr.png')}
               disabled={!cleanQRUrl}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-zinc-900 hover:bg-black text-white font-mono font-bold text-xs sm:text-sm shadow-xs transition-all hover:scale-[1.02] active:scale-98 disabled:opacity-50 cursor-pointer"
+              className="flex-1 min-h-[44px] flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-xl bg-zinc-900 hover:bg-black text-white font-mono font-bold text-xs sm:text-sm shadow-xs transition-all hover:scale-[1.02] active:scale-98 disabled:opacity-50 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download Scannable QR (PNG)</span>
@@ -195,7 +203,7 @@ export default function ExportModal({
             <button
               onClick={() => downloadImage(dioramaUrl, 'qrty-3d-tree.png')}
               disabled={!dioramaUrl}
-              className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-zinc-900 hover:bg-black text-white font-mono font-bold text-xs sm:text-sm shadow-xs transition-all hover:scale-[1.02] active:scale-98 disabled:opacity-50 cursor-pointer"
+              className="flex-1 min-h-[44px] flex items-center justify-center gap-2 py-2.5 sm:py-3 rounded-xl bg-zinc-900 hover:bg-black text-white font-mono font-bold text-xs sm:text-sm shadow-xs transition-all hover:scale-[1.02] active:scale-98 disabled:opacity-50 cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download 3D Artwork (PNG)</span>
